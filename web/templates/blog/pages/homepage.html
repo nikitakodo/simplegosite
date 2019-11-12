@@ -1,0 +1,41 @@
+{{define "blog_pages_home"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        {{template "blog_partial_head" .}}
+    </head>
+    <body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header section -->
+    {{template "blog_partial_header" .}}
+    <!-- Header section end -->
+
+    <!-- Hero section -->
+    {{template "blog_partial_slider" .}}
+    <!-- Hero section end -->
+
+    <!-- Add section end -->
+    {{template "blog_partial_add" .}}
+    <!-- Add section end -->
+
+    <!-- Recipes section -->
+    {{template "blog_partial_recipes" .}}
+    <!-- Recipes section end -->
+
+    <!-- Footer widgets section -->
+    {{template "blog_partial_footer-widgets" .}}
+    <!-- Footer widgets section end -->
+
+    <!-- Footer section  -->
+    {{template "blog_partial_footer" .}}
+    <!-- Footer section end -->
+
+    <!--====== Javascripts & Jquery ======-->
+    {{template "blog_partial_scripts" .}}
+    </body>
+    </html>
+{{end}}

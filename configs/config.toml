@@ -1,0 +1,13 @@
+bind_addr = ":8001"
+log_level = "info"
+title = "Simple web site"
+uploads = "web/uploads"
+templates = "web/templates"
+[database]
+url = "host=db port=5432 user=web_user password=password dbname=site_db sslmode=disable"
+
+[session]
+key = "3373367639792442264528482B4D6251655468576D5A7134743777217A25432A462D4A404E635266556A586E3272357538782F413F4428472B4B625064536756"
+name = "simple_web_site_session"
+max_age = 604800
+#session lifetime 1 week
