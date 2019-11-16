@@ -14,6 +14,7 @@ services:
       - db
     volumes:
       - ./web:/root/web
+      - ./migrations:/root/migrations
       - ./configs:/root/configs
 
   db:

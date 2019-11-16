@@ -1,12 +1,14 @@
-FROM golang:1.13 as first
+FROM golang:1.13 as app
 WORKDIR /app
 COPY . .
-#RUN go get -d -v ./...
-#RUN go install -v ./...
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v ./cmd/application
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v ./cmd/migration
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
-COPY --from=first /app .
+COPY --from=app /app/application application
+COPY --from=app /app/migration migration
+#COPY --from=app /app .
+#COPY --from=migration /migration .
 CMD ["./application"]
