@@ -1,6 +1,12 @@
-package controllers
+package controller
 
-import "net/http"
+import (
+	"net/http"
+)
+
+type Interface interface {
+	Action(w http.ResponseWriter, r *http.Request)
+}
 
 type ResourceInterface interface {
 	GetName() string

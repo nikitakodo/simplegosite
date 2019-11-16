@@ -7,11 +7,13 @@ import (
 )
 
 type BlogController struct {
-	View   services.View
+	View   *services.View
 	Logger *logrus.Logger
 }
 
-func (c BlogController) Home(w http.ResponseWriter, r *http.Request) {
+func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
 	err := c.View.ResponseTemplate(w, map[string]interface{}{}, "blog_pages_home")
-	c.Logger.Error(err)
+	if err != nil {
+		c.Logger.Error(err)
+	}
 }
