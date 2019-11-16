@@ -1,11 +1,11 @@
-package services
+package middleware
 
 import (
 	"context"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"net/http"
-	"simplesite/internal/app/store"
+	"simplesite/internal/app/di"
 	"time"
 )
 
@@ -16,13 +16,11 @@ const (
 	ctxKeyRequestID
 )
 
-type MiddlewareService struct {
-	Store   store.Store
-	Session SessionService
-	Logger  *logrus.Logger
+type Service struct {
+	Di *di.GlobalDi
 }
 
-func (m MiddlewareService) SetRequestID(next http.Handler) http.Handler {
+func (m Service) SetRequestID(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := uuid.New().String()
 		w.Header().Set("X-Request-ID", id)
@@ -30,7 +28,7 @@ func (m MiddlewareService) SetRequestID(next http.Handler) http.Handler {
 	})
 }
 
-func (m MiddlewareService) LogRequest(next http.Handler) http.Handler {
+func (m Service) LogRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log := logrus.New()
 		logger := log.WithFields(logrus.Fields{
@@ -62,22 +60,22 @@ func (m MiddlewareService) LogRequest(next http.Handler) http.Handler {
 	})
 }
 
-func (m MiddlewareService) AdminAuth(next http.Handler) http.Handler {
+func (m Service) AdminAuth(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
-			//session, err := Session.SessionStore.Get(r, Session.SessionName)
+			//session, err := m.Di.Session.SessionStore.Get(r, m.Di.Session.SessionName)
 			//if err != nil {
-			//	View{}.error(w, r, http.StatusInternalServerError, err)
+			//	m.Di.View.Error(w, r, http.StatusInternalServerError, err)
 			//	return
 			//}
-
+			//
 			//id, ok := session.Values["user_id"]
 			//if !ok {
 			//	//View{}.error(w, r, http.StatusUnauthorized, errNotAuthenticated)
 			//	return
 			//}
-
-			//u, err := m.Store.User().Find(id.(int))
+			//
+			//u, err := m.Di.Store.User().Find(id.(int))
 			//if err != nil {
 			//	//s.error(w, r, http.StatusUnauthorized, errNotAuthenticated)
 			//	return
@@ -87,13 +85,13 @@ func (m MiddlewareService) AdminAuth(next http.Handler) http.Handler {
 		})
 }
 
-//func (s *Server) handleWhoami() http.HandlerFunc {
+//func (s *App) handleWhoami() http.HandlerFunc {
 //	return func(w http.ResponseWriter, r *http.Request) {
 //		s.respond(w, r, http.StatusOK, r.Context().Value(ctxKeyUser).(*model.User))
 //	}
 //}
 //
-//func (s *Server) error(w http.ResponseWriter, r *http.Request, code int, err error) {
+//func (s *App) error(w http.ResponseWriter, r *http.Request, code int, err error) {
 //	s.View.ResponseTemplate()
 //	respond(w, r, code, map[string]string{"error": err.Error()})
 //}
