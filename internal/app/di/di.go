@@ -2,6 +2,7 @@ package di
 
 import (
 	"database/sql"
+	"github.com/go-redis/redis/v7"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"github.com/sirupsen/logrus"
@@ -16,6 +17,7 @@ type GlobalDi struct {
 	Session *services.SessionService
 	View    *services.View
 	Logger  *logrus.Logger
+	Cache   *services.Cache
 }
 
 func Factory(config *config.Config) (*GlobalDi, error) {
@@ -25,6 +27,16 @@ func Factory(config *config.Config) (*GlobalDi, error) {
 	}
 
 	Store := sqlstore.New(db)
+
+	client, err := newRedis(config.Cache.Addr, config.Cache.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	cache := &services.Cache{
+		Client: client,
+		Prefix: config.Cache.Prefix,
+	}
 
 	sessionStore := sessions.NewCookieStore([]byte(config.Session.Key))
 	session := services.NewSession(config.Session.Name, sessionStore)
@@ -47,6 +59,7 @@ func Factory(config *config.Config) (*GlobalDi, error) {
 		Session: &session,
 		View:    &view,
 		Logger:  logger,
+		Cache:   cache,
 	}
 
 	return di, nil
@@ -63,4 +76,20 @@ func newDB(dbURL string) (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func newRedis(addr string, pass string) (*redis.Client, error) {
+	client := redis.NewClient(
+		&redis.Options{
+			Addr:     addr,
+			Password: pass,
+			DB:       0,
+		},
+	)
+	_, err := client.Ping().Result()
+	if err != nil {
+		return nil, err
+	}
+
+	return client, nil
 }

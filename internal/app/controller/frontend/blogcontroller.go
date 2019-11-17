@@ -11,11 +11,12 @@ type BlogController struct {
 	View   *services.View
 	Logger *logrus.Logger
 	Store  *sqlstore.Store
+	Cache  *services.Cache
 }
 
 func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{}
-	navRepo := sqlstore.NavRepository{Store: c.Store}
+	navRepo := sqlstore.NavRepository{Store: c.Store, Cache: c.Cache}
 	navs, err := navRepo.FindAll()
 	if err != nil {
 		c.Logger.Error(err)

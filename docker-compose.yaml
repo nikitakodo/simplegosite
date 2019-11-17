@@ -27,6 +27,13 @@ services:
     ports:
       - ${DB_PORT}:5432
 
+  redis:
+    restart: always
+    image: redis:latest
+    hostname: redis
+    ports:
+      - "6379:6379"
+
   adminer:
     image: adminer
     restart: always

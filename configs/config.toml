@@ -11,6 +11,11 @@ url = "host=db port=5432 user=web_user password=password dbname=site_db sslmode=
 db_name = "site_db"
 migrations_dir = "migrations"
 
+[cache]
+url = "redis:6379"
+password = ""
+prefix = "app_"
+
 [session]
 key = "3373367639792442264528482B4D6251655468576D5A7134743777217A25432A462D4A404E635266556A586E3272357538782F413F4428472B4B625064536756"
 name = "simple_web_site_session"

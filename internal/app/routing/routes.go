@@ -21,7 +21,12 @@ func (r *Routing) setupBlogRoutes() {
 }
 
 func (r *Routing) routes() []Route {
-	blogController := frontend.BlogController{View: r.Di.View, Logger: r.Di.Logger, Store: r.Di.Store}
+	blogController := frontend.BlogController{
+		View:   r.Di.View,
+		Logger: r.Di.Logger,
+		Store:  r.Di.Store,
+		Cache:  r.Di.Cache,
+	}
 	return []Route{
 		{
 			"/",

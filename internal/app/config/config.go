@@ -7,7 +7,8 @@ type Config struct {
 	LogLevel       string   `toml:"log_level"`
 	TemplatesDir   string   `toml:"templates"`
 	DB             database `toml:"database"`
-	Session        Session  `toml:"Session"`
+	Session        session  `toml:"session"`
+	Cache          cache    `toml:"cache"`
 }
 type database struct {
 	Url           string
@@ -15,7 +16,13 @@ type database struct {
 	MigrationsDir string `toml:"migrations_dir"`
 }
 
-type Session struct {
+type cache struct {
+	Addr     string `toml:"url"`
+	Password string `toml:"password"`
+	Prefix   string `toml:"prefix"`
+}
+
+type session struct {
 	Key    string
 	Name   string
 	MaxAge int
