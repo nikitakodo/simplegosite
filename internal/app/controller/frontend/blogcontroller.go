@@ -16,16 +16,13 @@ type BlogController struct {
 
 func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{}
-	navRepo := sqlstore.NavRepository{Store: c.Store, Cache: c.Cache}
-	navs, err := navRepo.FindAll()
+	pageData, err := GetBasicData(c.View, c.Logger, c.Store, c.Cache)
 	if err != nil {
 		c.Logger.Error(err)
+		c.View.Error(w, r, http.StatusInternalServerError, err)
+		return
 	}
-	for i, d := range navs {
-		c.Logger.Infoln(i, d)
-	}
-	data["nav"] = navs
-	c.Logger.Infoln(data)
+	data["page"] = pageData
 	err = c.View.ResponseTemplate(w, data, "blog_pages_home")
 	if err != nil {
 		c.Logger.Error(err)

@@ -1,14 +1,17 @@
 package model
 
 import (
+	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
 type Nav struct {
-	ID    int    `json:"id"`
-	Order int    `json:"order"`
-	Title string `json:"title"`
-	Uri   string `json:"uri"`
+	ID         int          `json:"id"`
+	Order      int          `json:"order"`
+	Title      string       `json:"title"`
+	Uri        string       `json:"uri"`
+	CreateTime sql.NullTime `json:"create_time"`
+	UpdateTime sql.NullTime `json:"update_time"`
 }
 
 func (n Nav) BeforeCreate(model *Interface) error {

@@ -6,6 +6,10 @@ start:
 stop:
 		docker-compose stop
 
+.PHONY: prune
+prune:
+		docker-compose down -v
+
 .PHONY: migrate_up
 migrate_up:
 		docker-compose exec app ./migration -mode=up

@@ -1,7 +1,6 @@
 package config
 
 type Config struct {
-	Title          string   `toml:"title"`
 	AllowedOrigins string   `toml:"allowed_origins"`
 	BindAddr       string   `toml:"bind_addr"`
 	LogLevel       string   `toml:"log_level"`

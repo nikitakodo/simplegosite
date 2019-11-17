@@ -100,6 +100,8 @@ func (repo *NavRepository) FindAll() ([]*model.Nav, error) {
 				&nav.Order,
 				&nav.Title,
 				&nav.Uri,
+				&nav.CreateTime,
+				&nav.UpdateTime,
 			)
 			if err != nil {
 				return nil, err

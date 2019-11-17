@@ -16,10 +16,12 @@ services:
       - ./web:/root/web
       - ./migrations:/root/migrations
       - ./configs:/root/configs
+      - ./logs/app.log:/root/app.log
 
   db:
     image: postgres
     restart: always
+    container_name: ${DB_HOST}
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}

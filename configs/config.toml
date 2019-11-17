@@ -7,7 +7,7 @@ templates = "web/templates"
 
 
 [database]
-url = "host=db port=5432 user=web_user password=password dbname=site_db sslmode=disable"
+url = "host=blog_db port=5432 user=web_user password=password dbname=site_db sslmode=disable"
 db_name = "site_db"
 migrations_dir = "migrations"
 

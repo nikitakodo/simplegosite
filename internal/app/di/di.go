@@ -45,7 +45,6 @@ func Factory(config *config.Config) (*GlobalDi, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	logger := logrus.New()
 	logLevel, err := logrus.ParseLevel(config.LogLevel)
 	if err != nil {
