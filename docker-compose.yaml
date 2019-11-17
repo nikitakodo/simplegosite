@@ -28,6 +28,7 @@ services:
       - ${DB_PORT}:5432
 
   redis:
+    container_name: redis
     restart: always
     image: redis:latest
     hostname: redis

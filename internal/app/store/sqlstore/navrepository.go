@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/go-redis/redis/v7"
 	"simplesite/internal/app/model"
 	"simplesite/internal/app/services"
 	"simplesite/internal/app/store"
@@ -36,10 +35,11 @@ func (repo *NavRepository) Create(nav *model.Nav) error {
 func (repo *NavRepository) Find(id int) (*model.Nav, error) {
 	nav := &model.Nav{}
 
-	val, err := repo.Cache.GetMarshalStruct(nav.TableName() + "_" + strconv.Itoa(id))
-	if err != nil && err != redis.Nil {
+	val, err := repo.Cache.Get(nav.TableName() + "_" + strconv.Itoa(id))
+	if err != nil {
 		return nil, err
 	}
+
 	if val == nil || *val == "" {
 		if err := repo.Store.Db.QueryRow(
 			fmt.Sprintf(
@@ -75,8 +75,8 @@ func (repo *NavRepository) Find(id int) (*model.Nav, error) {
 
 func (repo *NavRepository) FindAll() ([]*model.Nav, error) {
 
-	val, err := repo.Cache.GetMarshalStruct(model.Nav{}.TableName() + "_all")
-	if err != nil && err != redis.Nil {
+	val, err := repo.Cache.Get(model.Nav{}.TableName() + "_all")
+	if err != nil {
 		return nil, err
 	}
 

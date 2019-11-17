@@ -9,6 +9,5 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=app /app/application application
 COPY --from=app /app/migration migration
-#COPY --from=app /app .
-#COPY --from=migration /migration .
+
 CMD ["./application"]

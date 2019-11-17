@@ -16,7 +16,7 @@ migrate_down:
 
 .PHONY: clean_cache
 clean_cache:
-		docker-compose exec redis sh
+		docker exec -it redis redis-cli FLUSHALL
 .PHONY: new_migration
 new_migration:
 		./scripts/create_migration.sh $(filter-out $@,$(MAKECMDGOALS))
