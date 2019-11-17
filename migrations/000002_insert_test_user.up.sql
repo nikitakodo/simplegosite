@@ -1,1 +1,0 @@
-INSERT INTO users (id, email, encrypted_password) VALUES (1, 'sadsadsda', 'qweqweqweq2131sdeqadsa');

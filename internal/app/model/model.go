@@ -7,5 +7,6 @@ type Interface interface {
 	AfterUpdate(model *Interface) error
 	BeforeDelete(model *Interface) error
 	AfterDelete(model *Interface) error
+	Validate() error
 	TableName() string
 }
