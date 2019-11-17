@@ -6,14 +6,8 @@ import (
 )
 
 func (r *Routing) setupBlogRoutes() {
-	blogController := frontend.BlogController{View: r.Di.View, Logger: r.Di.Logger}
-	routes := []Route{
-		{
-			"/",
-			"GET",
-			blogController.Home,
-		},
-	}
+
+	routes := r.routes()
 	r.Router.Use(
 		r.Middleware.SetRequestID,
 		r.Middleware.LogRequest,
@@ -23,6 +17,17 @@ func (r *Routing) setupBlogRoutes() {
 	)
 	for _, route := range routes {
 		r.Router.Methods(route.Method).Path(route.Pattern).Handler(route.Function)
+	}
+}
+
+func (r *Routing) routes() []Route {
+	blogController := frontend.BlogController{View: r.Di.View, Logger: r.Di.Logger, Store: r.Di.Store}
+	return []Route{
+		{
+			"/",
+			"GET",
+			blogController.Home,
+		},
 	}
 }
 

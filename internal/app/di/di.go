@@ -23,7 +23,7 @@ func Factory(config *config.Config) (*GlobalDi, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer db.Close()
+
 	Store := sqlstore.New(db)
 
 	sessionStore := sessions.NewCookieStore([]byte(config.Session.Key))
