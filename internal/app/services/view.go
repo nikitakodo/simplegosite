@@ -1,9 +1,9 @@
 package services
 
 import (
-	"encoding/json"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
 type View struct {
@@ -30,8 +30,11 @@ func (view *View) ResponseTemplate(w http.ResponseWriter, data map[string]interf
 }
 
 func (view *View) Error(w http.ResponseWriter, r *http.Request, code int, err error) {
-	w.WriteHeader(code)
-	if err != nil {
-		_ = json.NewEncoder(w).Encode(map[string]string{"Error": err.Error()})
-	}
+	//w.WriteHeader(code)
+	_ = view.ExecuteTemplate(
+		w,
+		map[string]interface{}{"code": code},
+		"blog_error_"+strconv.Itoa(code),
+	)
+	return
 }
