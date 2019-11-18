@@ -1,0 +1,11 @@
+drop trigger if exists set_timestamp on adv;
+drop trigger if exists set_timestamp on author;
+drop trigger if exists set_timestamp on category;
+drop trigger if exists set_timestamp on cuisine;
+drop trigger if exists set_timestamp on mark;
+drop trigger if exists set_timestamp on nav;
+drop trigger if exists set_timestamp on recipe;
+drop trigger if exists set_timestamp on admin;
+drop trigger if exists set_timestamp on settings;
+drop trigger if exists set_timestamp on slides;
+drop trigger if exists set_timestamp on social;
