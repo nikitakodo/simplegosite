@@ -21,7 +21,7 @@ func (repo *NavRepository) Create(nav *model.Nav) error {
 		return err
 	}
 
-	return repo.Store.Db.QueryRow(
+	err := repo.Store.Db.QueryRow(
 		fmt.Sprintf(
 			"INSERT INTO %s (order, title, uri) VALUES ($1, $2, $3) RETURNING id",
 			nav.TableName(),
@@ -30,6 +30,17 @@ func (repo *NavRepository) Create(nav *model.Nav) error {
 		nav.Title,
 		nav.Uri,
 	).Scan(nav.ID)
+
+	if err != nil {
+		return err
+	}
+
+	err = repo.Cache.Del(nav.TableName() + "_all")
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (repo *NavRepository) Find(id int) (*model.Nav, error) {
@@ -134,11 +145,13 @@ func (repo *NavRepository) Update(nav *model.Nav) error {
 		nav.Uri,
 		nav.ID,
 	)
+	repo.Cache.Client.Del(nav.TableName() + "_" + strconv.Itoa(nav.ID))
+	err = repo.Cache.Del(nav.TableName() + "_all")
 	if err != nil {
-		repo.Cache.Client.Del(nav.TableName() + "_" + strconv.Itoa(nav.ID))
+		return err
 	}
 
-	return err
+	return nil
 }
 
 func (repo *NavRepository) Delete(id int) error {
@@ -146,9 +159,11 @@ func (repo *NavRepository) Delete(id int) error {
 		fmt.Sprintf("delete from %s where id = $1", model.Nav{}.TableName()),
 		id,
 	)
+	repo.Cache.Client.Del(model.Nav{}.TableName() + "_" + strconv.Itoa(id))
+	err = repo.Cache.Del(model.Nav{}.TableName() + "_all")
 	if err != nil {
-		repo.Cache.Client.Del(model.Nav{}.TableName() + "_" + strconv.Itoa(id))
+		return err
 	}
 
-	return err
+	return nil
 }

@@ -15,16 +15,40 @@ type BlogController struct {
 }
 
 func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
+	tmplName := "blog_pages_home"
 	data := map[string]interface{}{}
-	pageData, err := GetBasicData(c.View, c.Logger, c.Store, c.Cache)
+	page, err := GetBasicData(c.View, c.Logger, c.Store, c.Cache)
 	if err != nil {
-		c.Logger.Error(err)
-		c.View.Error(w, r, http.StatusInternalServerError, err)
+		c.Error(w, r, err)
 		return
 	}
-	data["page"] = pageData
-	err = c.View.ResponseTemplate(w, data, "blog_pages_home")
+	data["page"] = page
+
+	slidesRepo := sqlstore.SlidesRepository{Store: c.Store, Cache: c.Cache}
+	slides, err := slidesRepo.FindAll()
 	if err != nil {
-		c.Logger.Error(err)
+		c.Error(w, r, err)
+		return
 	}
+	data["slides"] = slides
+
+	addRepo := sqlstore.AddRepository{Store: c.Store, Cache: c.Cache}
+	add, err := addRepo.Find(1)
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+	data["add"] = add
+
+	err = c.View.ResponseTemplate(w, data, tmplName)
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+}
+
+func (c *BlogController) Error(w http.ResponseWriter, r *http.Request, err error) {
+	c.Logger.Error(err)
+	c.View.Error(w, r, http.StatusInternalServerError, err)
+	return
 }

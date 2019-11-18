@@ -21,7 +21,7 @@ func (repo *SocialRepository) Create(social *model.Social) error {
 		return err
 	}
 
-	return repo.Store.Db.QueryRow(
+	err := repo.Store.Db.QueryRow(
 		fmt.Sprintf(
 			"INSERT INTO %s (order, icon, url) VALUES ($1, $2, $3) RETURNING id",
 			social.TableName(),
@@ -30,12 +30,23 @@ func (repo *SocialRepository) Create(social *model.Social) error {
 		social.Icon,
 		social.Url,
 	).Scan(social.ID)
+
+	if err != nil {
+		return err
+	}
+
+	err = repo.Cache.Del(social.TableName() + "_all")
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (repo *SocialRepository) Find(id int) (*model.Social, error) {
-	nav := &model.Social{}
+	social := &model.Social{}
 
-	val, err := repo.Cache.Get(nav.TableName() + "_" + strconv.Itoa(id))
+	val, err := repo.Cache.Get(social.TableName() + "_" + strconv.Itoa(id))
 	if err != nil {
 		return nil, err
 	}
@@ -44,14 +55,14 @@ func (repo *SocialRepository) Find(id int) (*model.Social, error) {
 		if err := repo.Store.Db.QueryRow(
 			fmt.Sprintf(
 				"SELECT id, order, icon, url FROM %s WHERE id = $1",
-				nav.TableName(),
+				social.TableName(),
 			),
 			id,
 		).Scan(
-			nav.ID,
-			nav.Order,
-			nav.Icon,
-			nav.Url,
+			social.ID,
+			social.Order,
+			social.Icon,
+			social.Url,
 		); err != nil {
 			if err == sql.ErrNoRows {
 				return nil, store.ErrRecordNotFound
@@ -60,17 +71,17 @@ func (repo *SocialRepository) Find(id int) (*model.Social, error) {
 			return nil, err
 		}
 
-		err = repo.Cache.SetStruct(nav.TableName()+"_"+strconv.Itoa(id), nav)
+		err = repo.Cache.SetStruct(social.TableName()+"_"+strconv.Itoa(id), social)
 		if err != nil {
 			return nil, err
 		}
 	} else {
-		err = json.Unmarshal([]byte(*val), nav)
+		err = json.Unmarshal([]byte(*val), social)
 		if err != nil {
 			return nil, err
 		}
 	}
-	return nav, nil
+	return social, nil
 }
 
 func (repo *SocialRepository) FindAll() ([]*model.Social, error) {
@@ -123,22 +134,24 @@ func (repo *SocialRepository) FindAll() ([]*model.Social, error) {
 	return res, nil
 }
 
-func (repo *SocialRepository) Update(nav *model.Social) error {
+func (repo *SocialRepository) Update(social *model.Social) error {
 	_, err := repo.Store.Db.Exec(
 		fmt.Sprintf(
 			"update %s set order = $1, icon=$2, url=$3 where id = $4",
-			nav.TableName(),
+			social.TableName(),
 		),
-		nav.Order,
-		nav.Icon,
-		nav.Url,
-		nav.ID,
+		social.Order,
+		social.Icon,
+		social.Url,
+		social.ID,
 	)
+	repo.Cache.Client.Del(social.TableName() + "_" + strconv.Itoa(social.ID))
+	err = repo.Cache.Del(social.TableName() + "_all")
 	if err != nil {
-		repo.Cache.Client.Del(nav.TableName() + "_" + strconv.Itoa(nav.ID))
+		return err
 	}
 
-	return err
+	return nil
 }
 
 func (repo *SocialRepository) Delete(id int) error {
@@ -146,9 +159,11 @@ func (repo *SocialRepository) Delete(id int) error {
 		fmt.Sprintf("delete from %s where id = $1", model.Social{}.TableName()),
 		id,
 	)
+	repo.Cache.Client.Del(model.Social{}.TableName() + "_" + strconv.Itoa(id))
+	err = repo.Cache.Del(model.Social{}.TableName() + "_all")
 	if err != nil {
-		repo.Cache.Client.Del(model.Social{}.TableName() + "_" + strconv.Itoa(id))
+		return err
 	}
 
-	return err
+	return nil
 }

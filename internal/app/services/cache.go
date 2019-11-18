@@ -41,3 +41,14 @@ func (cache *Cache) Get(key string) (*string, error) {
 
 	return &v, nil
 }
+
+func (cache *Cache) Del(key string) error {
+	status := cache.Client.Del(cache.Prefix + key)
+	_, err := status.Result()
+
+	if err != nil && err != redis.Nil {
+		return err
+	}
+
+	return nil
+}
