@@ -1,4 +1,3 @@
-drop trigger if exists set_timestamp on adv;
 drop trigger if exists set_timestamp on author;
 drop trigger if exists set_timestamp on category;
 drop trigger if exists set_timestamp on cuisine;

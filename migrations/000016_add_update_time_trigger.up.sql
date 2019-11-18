@@ -13,11 +13,6 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
 create TRIGGER set_timestamp
-BEFORE update ON adv
-FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
-
-create TRIGGER set_timestamp
 BEFORE update ON author
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
