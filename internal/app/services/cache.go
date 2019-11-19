@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"github.com/go-redis/redis/v7"
+	"time"
 )
 
 type Cache struct {
@@ -10,13 +11,12 @@ type Cache struct {
 	Prefix string
 }
 
-func (cache *Cache) Set(key string, data interface{}) error {
-	status := cache.Client.Set(
+func (cache *Cache) Set(key string, data interface{}, expiration time.Duration) error {
+	_, err := cache.Client.Set(
 		cache.Prefix+key,
 		data,
-		0,
-	)
-	_, err := status.Result()
+		expiration,
+	).Result()
 
 	return err
 }
@@ -28,12 +28,11 @@ func (cache *Cache) SetStruct(key string, data interface{}) error {
 		return err
 	}
 
-	return cache.Set(key, encodedData)
+	return cache.Set(key, encodedData, 0)
 }
 
 func (cache *Cache) Get(key string) (*string, error) {
-	status := cache.Client.Get(cache.Prefix + key)
-	v, err := status.Result()
+	v, err := cache.Client.Get(cache.Prefix + key).Result()
 
 	if err != nil && err != redis.Nil {
 		return nil, err
@@ -43,9 +42,7 @@ func (cache *Cache) Get(key string) (*string, error) {
 }
 
 func (cache *Cache) Del(key string) error {
-	status := cache.Client.Del(cache.Prefix + key)
-	_, err := status.Result()
-
+	_, err := cache.Client.Del(cache.Prefix + key).Result()
 	if err != nil && err != redis.Nil {
 		return err
 	}

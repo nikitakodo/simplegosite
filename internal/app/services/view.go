@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type View struct {
@@ -23,30 +24,23 @@ func NewView(templatesDir string, cache *Cache) (view View, err error) {
 }
 
 func (view *View) ExecuteTemplate(w http.ResponseWriter, data map[string]interface{}, templateName string) (err error) {
-
-	//TODO create template caching
-	r, err := view.Cache.Get(view.Cache.Prefix + templateName)
-	if err != nil {
-		return
-	}
-	if r == nil {
-		var tpl bytes.Buffer
-		if err := view.Templates.Execute(&tpl, data); err != nil {
-			return err
-		}
-		result := tpl.String()
-		err = view.Cache.Set(view.Cache.Prefix+templateName, result)
-		if err != nil {
-			return
-		}
-	} else {
-		_, err = w.Write([]byte(*r))
-	}
-	return
+	return view.Templates.ExecuteTemplate(w, templateName, data)
 }
 
 func (view *View) ResponseTemplate(w http.ResponseWriter, data map[string]interface{}, templateName string) (err error) {
-	err = view.ExecuteTemplate(w, data, templateName)
+	var tpl bytes.Buffer
+	err = view.Templates.ExecuteTemplate(&tpl, templateName, data)
+	if err != nil {
+		return err
+	}
+	content := tpl.String()
+	err = view.Cache.Set(templateName, content, 60*10*time.Second)
+	if err != nil {
+		return err
+	}
+	_, err = w.Write([]byte(content))
+	//err = view.ExecuteTemplate(w, data, templateName)
+
 	return
 }
 
