@@ -3,9 +3,12 @@ package model
 import (
 	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
+	"simplesite/internal/app/store"
+	"strconv"
 )
 
 type Add struct {
+	Cache      *store.Cache
 	ID         int          `json:"id"`
 	Title      string       `json:"title"`
 	FirstItem  string       `json:"first_item"`
@@ -19,44 +22,36 @@ type Add struct {
 	UpdateTime sql.NullTime `json:"update_time"`
 }
 
-func (a Add) BeforeCreate(model *Interface) error {
-	return nil
+func (m Add) GetCacheService() *store.Cache {
+	return m.Cache
 }
 
-func (a Add) AfterCreate(model *Interface) error {
-	return nil
+func (m Add) GetId() int {
+	return m.ID
 }
 
-func (a Add) BeforeUpdate(model *Interface) error {
-	return nil
+func (m Add) GetTableCacheKey() string {
+	return m.TableName() + "_all"
 }
 
-func (a Add) AfterUpdate(model *Interface) error {
-	return nil
+func (m Add) GetItemCacheKey() string {
+	return m.TableName() + "_" + strconv.Itoa(m.GetId())
 }
 
-func (a Add) BeforeDelete(model *Interface) error {
-	return nil
-}
-
-func (a Add) AfterDelete(model *Interface) error {
-	return nil
-}
-
-func (a Add) TableName() string {
+func (m Add) TableName() string {
 	return "add"
 }
 
-func (a Add) Validate() error {
+func (m Add) Validate() error {
 	return validation.ValidateStruct(
-		a,
-		validation.Field(&a.Title, validation.Required, validation.Length(6, 100)),
-		validation.Field(&a.FirstItem, validation.Required, validation.Length(6, 100)),
-		validation.Field(&a.SecondItem, validation.Required, validation.Length(6, 100)),
-		validation.Field(&a.ThirdItem, validation.Required, validation.Length(6, 100)),
-		validation.Field(&a.FourthItem, validation.Required, validation.Length(6, 100)),
-		validation.Field(&a.FirstImg, validation.Required),
-		validation.Field(&a.SecondImg, validation.Required),
-		validation.Field(&a.ThirdImg, validation.Required),
+		m,
+		validation.Field(&m.Title, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.FirstItem, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.SecondItem, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.ThirdItem, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.FourthItem, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.FirstImg, validation.Required),
+		validation.Field(&m.SecondImg, validation.Required),
+		validation.Field(&m.ThirdImg, validation.Required),
 	)
 }

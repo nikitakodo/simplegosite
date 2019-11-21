@@ -3,50 +3,45 @@ package model
 import (
 	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
+	"simplesite/internal/app/store"
+	"strconv"
 )
 
 type Nav struct {
-	ID         int          `json:"id"`
-	Order      int          `json:"order"`
-	Title      string       `json:"title"`
-	Uri        string       `json:"uri"`
-	CreateTime sql.NullTime `json:"create_time"`
-	UpdateTime sql.NullTime `json:"update_time"`
+	Cache      *store.Cache
+	ID         int64        `gorm:"primary_key"`
+	Order      int          `gorm:"column:order"`
+	Title      string       `gorm:"column:title"`
+	Uri        string       `gorm:"column:uri"`
+	CreateTime sql.NullTime `gorm:"column:create_time"`
+	UpdateTime sql.NullTime `gorm:"column:update_time"`
 }
 
-func (n Nav) BeforeCreate(model *Interface) error {
-	return nil
+func (m Nav) GetCacheService() *store.Cache {
+	return m.Cache
 }
 
-func (n Nav) AfterCreate(model *Interface) error {
-	return nil
+func (m Nav) GetId() int {
+	return m.ID
 }
 
-func (n Nav) BeforeUpdate(model *Interface) error {
-	return nil
+func (m Nav) GetTableCacheKey() string {
+	return m.TableName() + "_all"
 }
 
-func (n Nav) AfterUpdate(model *Interface) error {
-	return nil
+func (m Nav) GetItemCacheKey() string {
+	return m.TableName() + "_" + strconv.Itoa(m.GetId())
 }
 
-func (n Nav) BeforeDelete(model *Interface) error {
-	return nil
-}
-
-func (n Nav) AfterDelete(model *Interface) error {
-	return nil
-}
-
-func (n Nav) TableName() string {
+func (m Nav) TableName() string {
 	return "nav"
 }
 
-func (n Nav) Validate() error {
+func (m Nav) Validate() error {
 	return validation.ValidateStruct(
-		n,
-		validation.Field(&n.Order, validation.Required),
-		validation.Field(&n.Title, validation.Required, validation.Length(6, 100)),
-		validation.Field(&n.Uri, validation.Required),
+		m,
+		validation.Field(&m.Order, validation.Required),
+		validation.Field(&m.Title, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.Uri, validation.Required),
 	)
 }

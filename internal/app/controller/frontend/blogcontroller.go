@@ -3,37 +3,42 @@ package frontend
 import (
 	"github.com/sirupsen/logrus"
 	"net/http"
+	"simplesite/internal/app/model"
+	"simplesite/internal/app/repository"
 	"simplesite/internal/app/services"
-	"simplesite/internal/app/store/sqlstore"
+	"simplesite/internal/app/store"
 )
 
 type BlogController struct {
 	View   *services.View
 	Logger *logrus.Logger
-	Store  *sqlstore.Store
-	Cache  *services.Cache
+	Store  *store.Store
 }
 
 func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
 	tmplName := "blog_pages_home"
+	if res := WriteCachedResponse(w, tmplName, c.Store.Cache); res {
+		return
+	}
+
 	data := map[string]interface{}{}
-	page, err := GetBasicData(c.View, c.Logger, c.Store, c.Cache)
+	page, err := GetBasicData(c.View, c.Logger, c.Store)
 	if err != nil {
 		c.Error(w, r, err)
 		return
 	}
 	data["page"] = page
 
-	slidesRepo := sqlstore.SlidesRepository{Store: c.Store, Cache: c.Cache}
-	slides, err := slidesRepo.FindAll()
+	slidesRepo := repository.SlidesRepository{Store: c.Store}
+	slides, err := slidesRepo.GetOrdered(model.Slide{})
 	if err != nil {
 		c.Error(w, r, err)
 		return
 	}
 	data["slides"] = slides
 
-	addRepo := sqlstore.AddRepository{Store: c.Store, Cache: c.Cache}
-	add, err := addRepo.Find(1)
+	addRepo := repository.AddRepository{Store: c.Store}
+	add, err := addRepo.Find(model.Add{ID: 1})
 	if err != nil {
 		c.Error(w, r, err)
 		return

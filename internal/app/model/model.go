@@ -1,12 +1,14 @@
 package model
 
+import (
+	"simplesite/internal/app/store"
+)
+
 type Interface interface {
-	BeforeCreate(model *Interface) error
-	AfterCreate(model *Interface) error
-	BeforeUpdate(model *Interface) error
-	AfterUpdate(model *Interface) error
-	BeforeDelete(model *Interface) error
-	AfterDelete(model *Interface) error
+	GetId() int
 	Validate() error
 	TableName() string
+	GetTableCacheKey() string
+	GetItemCacheKey() string
+	GetCacheService() *store.Cache
 }

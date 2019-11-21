@@ -3,9 +3,12 @@ package model
 import (
 	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
+	"simplesite/internal/app/store"
+	"strconv"
 )
 
 type Slide struct {
+	Cache       *store.Cache
 	ID          int          `json:"id"`
 	Order       int          `json:"order"`
 	FirstTitle  string       `json:"first_title"`
@@ -16,41 +19,33 @@ type Slide struct {
 	UpdateTime  sql.NullTime `json:"update_time"`
 }
 
-func (s Slide) BeforeCreate(model *Interface) error {
-	return nil
+func (m Slide) GetCacheService() *store.Cache {
+	return m.Cache
 }
 
-func (s Slide) AfterCreate(model *Interface) error {
-	return nil
+func (m Slide) GetId() int {
+	return m.ID
 }
 
-func (s Slide) BeforeUpdate(model *Interface) error {
-	return nil
+func (m Slide) GetTableCacheKey() string {
+	return m.TableName() + "_all"
 }
 
-func (s Slide) AfterUpdate(model *Interface) error {
-	return nil
+func (m Slide) GetItemCacheKey() string {
+	return m.TableName() + "_" + strconv.Itoa(m.GetId())
 }
 
-func (s Slide) BeforeDelete(model *Interface) error {
-	return nil
-}
-
-func (s Slide) AfterDelete(model *Interface) error {
-	return nil
-}
-
-func (s Slide) TableName() string {
+func (m Slide) TableName() string {
 	return "slides"
 }
 
-func (s Slide) Validate() error {
+func (m Slide) Validate() error {
 	return validation.ValidateStruct(
-		s,
-		validation.Field(&s.Order, validation.Required),
-		validation.Field(&s.FirstTitle, validation.Required, validation.Length(6, 100)),
-		validation.Field(&s.SecondTitle, validation.Required, validation.Length(6, 100)),
-		validation.Field(&s.ThirdTitle, validation.Required, validation.Length(6, 100)),
-		validation.Field(&s.Img, validation.Required),
+		m,
+		validation.Field(&m.Order, validation.Required),
+		validation.Field(&m.FirstTitle, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.SecondTitle, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.ThirdTitle, validation.Required, validation.Length(6, 100)),
+		validation.Field(&m.Img, validation.Required),
 	)
 }

@@ -1,42 +1,43 @@
 package di
 
 import (
-	"database/sql"
+	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/go-redis/redis/v7"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 	"simplesite/internal/app/config"
 	"simplesite/internal/app/services"
-	"simplesite/internal/app/store/sqlstore"
+	"simplesite/internal/app/store"
 )
 
 type GlobalDi struct {
 	Router  *mux.Router
-	Store   *sqlstore.Store
+	Store   *store.Store
 	Session *services.SessionService
 	View    *services.View
 	Logger  *logrus.Logger
-	Cache   *services.Cache
 }
 
 func Factory(config *config.Config) (*GlobalDi, error) {
 	db, err := newDB(config.DB.Url)
+
 	if err != nil {
 		return nil, err
 	}
-
-	Store := sqlstore.New(db)
 
 	client, err := newRedis(config.Cache.Addr, config.Cache.Password)
 	if err != nil {
 		return nil, err
 	}
 
-	cache := &services.Cache{
+	cache := &store.Cache{
 		Client: client,
 		Prefix: config.Cache.Prefix,
 	}
+
+	Store := store.New(db, cache)
 
 	sessionStore := sessions.NewCookieStore([]byte(config.Session.Key))
 	session := services.NewSession(config.Session.Name, sessionStore)
@@ -58,22 +59,19 @@ func Factory(config *config.Config) (*GlobalDi, error) {
 		Session: &session,
 		View:    &view,
 		Logger:  logger,
-		Cache:   cache,
 	}
 
 	return di, nil
 }
 
-func newDB(dbURL string) (*sql.DB, error) {
-	db, err := sql.Open("postgres", dbURL)
+func newDB(dbURL string) (*dbx.DB, error) {
+	db, err := dbx.Open("postgres", dbURL)
 	if err != nil {
 		return nil, err
 	}
-
-	if err := db.Ping(); err != nil {
+	if err := db.DB().Ping(); err != nil {
 		return nil, err
 	}
-
 	return db, nil
 }
 
@@ -89,6 +87,5 @@ func newRedis(addr string, pass string) (*redis.Client, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return client, nil
 }

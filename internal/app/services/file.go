@@ -7,17 +7,17 @@ import (
 	"os"
 	"path/filepath"
 	"simplesite/internal/app/model"
-	"simplesite/internal/app/store"
+	"simplesite/internal/app/repository"
 )
 
 type FileService struct {
 	UploadDir     string
 	MaxUploadSize int64
-	Repository    store.RepositoryInterface
+	Repository    repository.Interface
 	Logger        *logrus.Logger
 }
 
-func NewFileService(uploadDir string, maxUploadSize int64, repo store.RepositoryInterface, logger *logrus.Logger) *FileService {
+func NewFileService(uploadDir string, maxUploadSize int64, repo repository.Interface, logger *logrus.Logger) *FileService {
 	if maxUploadSize == 0 {
 		maxUploadSize = 10 * 1024
 	}

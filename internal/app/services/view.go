@@ -4,16 +4,17 @@ import (
 	"bytes"
 	"html/template"
 	"net/http"
+	"simplesite/internal/app/store"
 	"strconv"
 	"time"
 )
 
 type View struct {
 	Templates *template.Template
-	Cache     *Cache
+	Cache     *store.Cache
 }
 
-func NewView(templatesDir string, cache *Cache) (view View, err error) {
+func NewView(templatesDir string, cache *store.Cache) (view View, err error) {
 	templates, err := template.ParseGlob(templatesDir + "/*/*/*.html")
 	if err != nil {
 		return
