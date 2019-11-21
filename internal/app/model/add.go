@@ -3,12 +3,10 @@ package model
 import (
 	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
-	"simplesite/internal/app/store"
 	"strconv"
 )
 
 type Add struct {
-	Cache      *store.Cache
 	ID         int          `json:"id"`
 	Title      string       `json:"title"`
 	FirstItem  string       `json:"first_item"`
@@ -20,10 +18,6 @@ type Add struct {
 	ThirdImg   string       `json:"third_img"`
 	CreateTime sql.NullTime `json:"create_time"`
 	UpdateTime sql.NullTime `json:"update_time"`
-}
-
-func (m Add) GetCacheService() *store.Cache {
-	return m.Cache
 }
 
 func (m Add) GetId() int {

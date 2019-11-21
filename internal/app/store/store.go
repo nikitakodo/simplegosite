@@ -1,14 +1,14 @@
 package store
 
 import (
-	dbx "github.com/go-ozzo/ozzo-dbx"
+	"github.com/jinzhu/gorm"
 )
 
 type Store struct {
-	Db    *dbx.DB
+	Db    *gorm.DB
 	Cache *Cache
 }
 
-func New(db *dbx.DB, cache *Cache) *Store {
+func New(db *gorm.DB, cache *Cache) *Store {
 	return &Store{Db: db, Cache: cache}
 }

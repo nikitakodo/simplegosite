@@ -1,10 +1,10 @@
 package di
 
 import (
-	"github.com/go-ozzo/ozzo-dbx"
 	"github.com/go-redis/redis/v7"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 	"simplesite/internal/app/config"
@@ -64,12 +64,9 @@ func Factory(config *config.Config) (*GlobalDi, error) {
 	return di, nil
 }
 
-func newDB(dbURL string) (*dbx.DB, error) {
-	db, err := dbx.Open("postgres", dbURL)
+func newDB(dbURL string) (*gorm.DB, error) {
+	db, err := gorm.Open("postgres", dbURL)
 	if err != nil {
-		return nil, err
-	}
-	if err := db.DB().Ping(); err != nil {
 		return nil, err
 	}
 	return db, nil

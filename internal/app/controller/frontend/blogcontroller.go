@@ -3,7 +3,6 @@ package frontend
 import (
 	"github.com/sirupsen/logrus"
 	"net/http"
-	"simplesite/internal/app/model"
 	"simplesite/internal/app/repository"
 	"simplesite/internal/app/services"
 	"simplesite/internal/app/store"
@@ -20,7 +19,6 @@ func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
 	if res := WriteCachedResponse(w, tmplName, c.Store.Cache); res {
 		return
 	}
-
 	data := map[string]interface{}{}
 	page, err := GetBasicData(c.View, c.Logger, c.Store)
 	if err != nil {
@@ -29,16 +27,14 @@ func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
 	}
 	data["page"] = page
 
-	slidesRepo := repository.SlidesRepository{Store: c.Store}
-	slides, err := slidesRepo.GetOrdered(model.Slide{})
+	slides, err := repository.SlidesRepository{Store: c.Store}.GetOrdered("order")
 	if err != nil {
 		c.Error(w, r, err)
 		return
 	}
 	data["slides"] = slides
 
-	addRepo := repository.AddRepository{Store: c.Store}
-	add, err := addRepo.Find(model.Add{ID: 1})
+	add, err := repository.AddRepository{Store: c.Store}.Find(1)
 	if err != nil {
 		c.Error(w, r, err)
 		return

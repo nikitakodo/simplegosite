@@ -3,22 +3,16 @@ package model
 import (
 	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
-	"simplesite/internal/app/store"
 	"strconv"
 )
 
 type Nav struct {
-	Cache      *store.Cache
-	ID         int64        `gorm:"primary_key"`
-	Order      int          `gorm:"column:order"`
-	Title      string       `gorm:"column:title"`
-	Uri        string       `gorm:"column:uri"`
-	CreateTime sql.NullTime `gorm:"column:create_time"`
-	UpdateTime sql.NullTime `gorm:"column:update_time"`
-}
-
-func (m Nav) GetCacheService() *store.Cache {
-	return m.Cache
+	ID         int          `gorm:"primary_key" json:"id"`
+	Order      int          `gorm:"column:order" json:"order"`
+	Title      string       `gorm:"column:title" json:"title"`
+	Uri        string       `gorm:"column:uri" json:"uri"`
+	CreateTime sql.NullTime `gorm:"column:create_time" json:"create_time"`
+	UpdateTime sql.NullTime `gorm:"column:update_time" json:"update_time"`
 }
 
 func (m Nav) GetId() int {

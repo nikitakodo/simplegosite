@@ -2,12 +2,10 @@ package model
 
 import (
 	"database/sql"
-	"simplesite/internal/app/store"
 	"strconv"
 )
 
 type Recipe struct {
-	Cache      *store.Cache
 	ID         int          `json:"id"`
 	Title      string       `json:"title"`
 	Body       string       `json:"body"`
@@ -17,10 +15,6 @@ type Recipe struct {
 	AuthorId   int          `json:"author_id"`
 	CreateTime sql.NullTime `json:"create_time"`
 	UpdateTime sql.NullTime `json:"update_time"`
-}
-
-func (m Recipe) GetCacheService() *store.Cache {
-	return m.Cache
 }
 
 func (m Recipe) GetId() int {

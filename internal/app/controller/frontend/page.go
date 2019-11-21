@@ -1,7 +1,6 @@
 package frontend
 
 import (
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"simplesite/internal/app/model"
@@ -12,8 +11,8 @@ import (
 
 type BasicPageData struct {
 	Title  string
-	Nav    []model.Nav
-	Social []model.Interface
+	Nav    []*model.Nav
+	Social []*model.Social
 }
 
 func GetBasicData(
@@ -21,25 +20,18 @@ func GetBasicData(
 	Logger *logrus.Logger,
 	Store *store.Store,
 ) (*BasicPageData, error) {
-	navRepo := repository.NavRepository{
-		Repository: repository.Repository{Store: Store},
-	}
-	navs, err := navRepo.GetOrdered(model.Nav{})
+	navs, err := repository.NavRepository{Store: Store}.GetOrdered("order")
 	if err != nil {
-		fmt.Println("1", err)
 		return nil, err
 	}
-	socialRepo := repository.SocialRepository{Store: Store}
-	socialItems, err := socialRepo.FindAll(model.Social{})
+	socialItems, err := repository.SocialRepository{Store: Store}.GetOrdered("order")
 	if err != nil {
-		fmt.Println("2", err)
 		return nil, err
 	}
 	data := &BasicPageData{
 		Nav:    navs,
 		Social: socialItems,
 	}
-
 	return data, nil
 }
 

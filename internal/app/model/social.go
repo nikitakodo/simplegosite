@@ -2,22 +2,16 @@ package model
 
 import (
 	"database/sql"
-	"simplesite/internal/app/store"
 	"strconv"
 )
 
 type Social struct {
-	Cache      *store.Cache
 	ID         int          `json:"id"`
-	Order      int          `json:"order"`
-	Icon       string       `json:"icon"`
-	Url        string       `json:"url"`
-	CreateTime sql.NullTime `json:"create_time"`
-	UpdateTime sql.NullTime `json:"update_time"`
-}
-
-func (m Social) GetCacheService() *store.Cache {
-	return m.Cache
+	Order      int          `json:"order" gorm:"column:order"`
+	Icon       string       `json:"icon" gorm:"column:icon"`
+	Url        string       `json:"url" gorm:"column:url"`
+	CreateTime sql.NullTime `json:"create_time" gorm:"column:create_time"`
+	UpdateTime sql.NullTime `json:"update_time" gorm:"column:update_time"`
 }
 
 func (m Social) GetId() int {
