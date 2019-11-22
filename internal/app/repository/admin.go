@@ -1,9 +1,12 @@
-package sqlstore
+package repository
 
-import "simplesite/internal/app/model"
+import (
+	"simplesite/internal/app/model"
+	"simplesite/internal/app/store"
+)
 
 type AdminRepository struct {
-	store *Store
+	store *store.Store
 }
 
 func (repo AdminRepository) Create(abstractModel *model.Interface) error {

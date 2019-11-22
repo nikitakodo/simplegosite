@@ -1,0 +1,1 @@
+INSERT INTO add ("id", "title", "first_item", "second_item", "third_item", "fourth_item", "first_img", "second_img", "third_img", "create_time", "update_time") VALUES (DEFAULT, 'Amazing deserts', 'Easy to make', 'Step by Step Video Tutorial', 'Gluten Free', 'Healty  Ingredients', 'img/add/1.jpg', 'img/add/2.jpg', 'img/add/3.jpg', DEFAULT, DEFAULT);

@@ -25,7 +25,6 @@ func (r *Routing) routes() []Route {
 		View:   r.Di.View,
 		Logger: r.Di.Logger,
 		Store:  r.Di.Store,
-		Cache:  r.Di.Cache,
 	}
 	return []Route{
 		{

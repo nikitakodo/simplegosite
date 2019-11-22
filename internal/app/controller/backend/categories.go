@@ -3,13 +3,13 @@ package backend
 import (
 	"github.com/gorilla/mux"
 	"net/http"
-	"simplesite/internal/app/store"
+	"simplesite/internal/app/repository"
 	"strconv"
 )
 
 type CategoriesResource struct {
 	Name       string
-	Repository store.RepositoryInterface
+	Repository repository.Interface
 }
 
 func NewCategoriesResource() *CategoriesResource {

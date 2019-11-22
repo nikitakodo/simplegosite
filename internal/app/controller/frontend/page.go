@@ -2,9 +2,11 @@ package frontend
 
 import (
 	"github.com/sirupsen/logrus"
+	"net/http"
 	"simplesite/internal/app/model"
+	"simplesite/internal/app/repository"
 	"simplesite/internal/app/services"
-	"simplesite/internal/app/store/sqlstore"
+	"simplesite/internal/app/store"
 )
 
 type BasicPageData struct {
@@ -16,16 +18,13 @@ type BasicPageData struct {
 func GetBasicData(
 	View *services.View,
 	Logger *logrus.Logger,
-	Store *sqlstore.Store,
-	Cache *services.Cache,
+	Store *store.Store,
 ) (*BasicPageData, error) {
-	navRepo := sqlstore.NavRepository{Store: Store, Cache: Cache}
-	navs, err := navRepo.FindAll()
+	navs, err := repository.NavRepository{Store: Store}.GetOrdered("order")
 	if err != nil {
 		return nil, err
 	}
-	socialRepo := sqlstore.SocialRepository{Store: Store, Cache: Cache}
-	socialItems, err := socialRepo.FindAll()
+	socialItems, err := repository.SocialRepository{Store: Store}.GetOrdered("order")
 	if err != nil {
 		return nil, err
 	}
@@ -33,6 +32,20 @@ func GetBasicData(
 		Nav:    navs,
 		Social: socialItems,
 	}
-
 	return data, nil
+}
+
+func WriteCachedResponse(w http.ResponseWriter, templateName string, cache *store.Cache) bool {
+	val, err := cache.Get(templateName)
+	if err != nil {
+		return false
+	}
+	if len(*val) > 0 {
+		_, err := w.Write([]byte(*val))
+		if err != nil {
+			return false
+		}
+		return true
+	}
+	return false
 }
