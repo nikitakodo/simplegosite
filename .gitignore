@@ -1,6 +1,7 @@
 /.idea/
 /nginx
-./docker-compose.yaml
-./Dockerfile
-./.env
+docker-compose.yaml
+Dockerfile
+.env
 /scripts/
+/configs/config.toml
