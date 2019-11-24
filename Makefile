@@ -1,3 +1,7 @@
+.PHONY: install_dev
+install_dev:
+		./environment/init.d/install_dev.sh
+
 .PHONY: start
 start:
 		docker-compose up --build -d
@@ -30,9 +34,5 @@ new_migration:
 .PHONY: build
 build:
 		make start && make migrate_up
-
-.PHONY: install_migrate
-install_migrate:
-		./scripts/install_migrate.sh
 
 .DEFAULT_GOAL := build

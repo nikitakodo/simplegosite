@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	"log"
@@ -36,7 +37,17 @@ func main() {
 		log.Fatalf("error parce file: %s", err.Error())
 	}
 
-	db, err := sql.Open("postgres", conf.DB.Url)
+	db, err := sql.Open(
+		"postgres",
+		fmt.Sprintf(
+			"host=%s user=%s dbname=%s password=%s sslmode=%s",
+			conf.DB.DbHost,
+			conf.DB.DbUser,
+			conf.DB.DbName,
+			conf.DB.DbPassword,
+			conf.DB.DbSsl,
+		),
+	)
 	if err != nil {
 		log.Fatalf("error open connection to db: %s", err.Error())
 	}
