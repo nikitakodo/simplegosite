@@ -34,5 +34,3 @@ new_migration:
 .PHONY: build
 build:
 		make start && make migrate_up
-
-.DEFAULT_GOAL := build
