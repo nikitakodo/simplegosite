@@ -3,9 +3,9 @@ WORKDIR /app
 COPY ./cmd ./cmd
 COPY ./configs ./configs
 COPY ./internal ./internal
-COPY ./logs ./logs
-COPY ./migrations ./mogrations
+COPY ./migrations ./migrations
 COPY ./web ./web
+COPY ./go.mod ./go.mod
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v ./cmd/application
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v ./cmd/migration
 

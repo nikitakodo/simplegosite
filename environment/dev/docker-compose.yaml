@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     build:
-      context: ../..
+      context: .
       dockerfile: Dockerfile
     container_name: ${APP_HOST}
     env_file:
@@ -12,6 +12,7 @@ services:
     restart: unless-stopped
     depends_on:
       - db
+      - redis
     volumes:
       - ./web:/root/web
       - ./migrations:/root/migrations
@@ -30,7 +31,7 @@ services:
       - ${DB_PORT}:5432
 
   redis:
-    container_name: redis
+    container_name: ${REDIS_HOST}
     restart: always
     image: redis:latest
     hostname: ${REDIS_HOST}

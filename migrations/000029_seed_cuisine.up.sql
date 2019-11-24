@@ -1,0 +1,16 @@
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'american', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'british', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'caribbean', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'chinese', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'french', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'greek', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'indian', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'italian', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'japanese', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'mediterranean', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'mexican', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'moroccan', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'spanish', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'thai', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'turkish', null, DEFAULT, null);
+INSERT INTO cuisine ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'vietnamese', null, DEFAULT, null);

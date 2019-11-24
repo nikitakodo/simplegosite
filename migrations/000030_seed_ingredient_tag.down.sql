@@ -1,0 +1,1 @@
+delete from ingredient_tag where true;

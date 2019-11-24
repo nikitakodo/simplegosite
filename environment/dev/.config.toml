@@ -3,6 +3,9 @@ allowed_origins = "*"
 log_level = "debug"
 title = "Simple web site"
 uploads = "web/uploads"
+uploads_url = "uploads"
+assets = "web/assets"
+assets_url = "assets"
 templates = "web/templates"
 
 

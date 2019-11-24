@@ -2,6 +2,7 @@ package services
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"net/http"
 	"simplesite/internal/app/store"
@@ -10,17 +11,35 @@ import (
 )
 
 type View struct {
-	Templates *template.Template
-	Cache     *store.Cache
+	Templates  *template.Template
+	Cache      *store.Cache
+	AssetsDir  string
+	UploadsDir string
 }
 
-func NewView(templatesDir string, cache *store.Cache) (view View, err error) {
-	templates, err := template.ParseGlob(templatesDir + "/*/*/*.html")
+func NewView(
+	templatesDir string,
+	assetsDir string,
+	uploadsDir string,
+	cache *store.Cache,
+) (view View, err error) {
+	view.Cache = cache
+	view.AssetsDir = assetsDir
+	view.UploadsDir = uploadsDir
+	templates, err := template.New("default").
+		Funcs(template.FuncMap{
+			"asset": func(filePath string) string {
+				return fmt.Sprintf("/%s/%s", assetsDir, filePath)
+			},
+			"upload": func(filePath string) string {
+				return fmt.Sprintf("/%s/%s", uploadsDir, filePath)
+			},
+		}).
+		ParseGlob(templatesDir + "/*/*/*.html")
 	if err != nil {
 		return
 	}
 	view.Templates = templates
-	view.Cache = cache
 	return
 }
 
@@ -40,13 +59,10 @@ func (view *View) ResponseTemplate(w http.ResponseWriter, data map[string]interf
 		return err
 	}
 	_, err = w.Write([]byte(content))
-	//err = view.ExecuteTemplate(w, data, templateName)
-
 	return
 }
 
 func (view *View) Error(w http.ResponseWriter, r *http.Request, code int, err error) {
-	//w.WriteHeader(code)
 	_ = view.ExecuteTemplate(
 		w,
 		map[string]interface{}{"code": code},

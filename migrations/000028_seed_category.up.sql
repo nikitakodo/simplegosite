@@ -1,0 +1,13 @@
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'breakfast', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'lunch', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'dinner', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'appetizer', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'salad', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'main-course', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'side-dish', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'baked-goods', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'dessert', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'snack', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'soup', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'holiday', null, DEFAULT, null);
+INSERT INTO category ("id", "name", "description", "create_time", "update_time") VALUES (DEFAULT, 'vegetarian', null, DEFAULT, null);

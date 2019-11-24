@@ -5,6 +5,10 @@ type Config struct {
 	BindAddr       string   `toml:"bind_addr"`
 	LogLevel       string   `toml:"log_level"`
 	TemplatesDir   string   `toml:"templates"`
+	AssetsDir      string   `toml:"assets"`
+	AssetsUrl      string   `toml:"assets_url"`
+	UploadsDir     string   `toml:"uploads"`
+	UploadsUrl     string   `toml:"uploads_url"`
 	DB             database `toml:"database"`
 	Session        session  `toml:"session"`
 	Cache          cache    `toml:"cache"`
