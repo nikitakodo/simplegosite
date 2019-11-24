@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     build:
-      context: .
+      context: ../..
       dockerfile: Dockerfile
     container_name: ${APP_HOST}
     env_file:
@@ -33,9 +33,9 @@ services:
     container_name: redis
     restart: always
     image: redis:latest
-    hostname: redis
+    hostname: ${REDIS_HOST}
     ports:
-      - "6379:6379"
+      - ${REDIS_PORT}:6379
 
   adminer:
     image: adminer
@@ -51,6 +51,7 @@ services:
     container_name: nginx
     volumes:
       - ./web/assets:/var/www/virtual/htdocs/app/assets
+      - ./web/uploads:/var/www/virtual/htdocs/app/uploads
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/mime.types:/etc/nginx/mime.types
       - ./nginx/error.log:/etc/nginx/error.log

@@ -7,9 +7,8 @@ path_to_migrate=$(which migrate)
         exit 1
     fi
     echo "creating. . ." &&
-    migrate create -ext sql -dir migrations -seq $name &&
+    migrate create -ext sql -dir migrations -seq "$name" &&
     echo "created"
  else
-    echo "no migrate installed"
-    echo "install migrate by make install_migrate or by migration.sh install"
+    echo "no migrate installed,please, install migrate"
  fi

@@ -1,6 +1,11 @@
 FROM golang:1.13 as app
 WORKDIR /app
-COPY . .
+COPY ./cmd ./cmd
+COPY ./configs ./configs
+COPY ./internal ./internal
+COPY ./logs ./logs
+COPY ./migrations ./mogrations
+COPY ./web ./web
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v ./cmd/application
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v ./cmd/migration
 

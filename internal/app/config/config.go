@@ -12,11 +12,17 @@ type Config struct {
 type database struct {
 	Url           string
 	DbName        string `toml:"db_name"`
+	DbHost        string `toml:"db_host"`
+	DbPort        string `toml:"db_port"`
+	DbUser        string `toml:"db_user"`
+	DbPassword    string `toml:"db_password"`
+	DbSsl         string `toml:"db_ssl"`
 	MigrationsDir string `toml:"migrations_dir"`
 }
 
 type cache struct {
-	Addr     string `toml:"url"`
+	Host     string `toml:"host"`
+	Port     string `toml:"port"`
 	Password string `toml:"password"`
 	Prefix   string `toml:"prefix"`
 }
@@ -28,8 +34,5 @@ type session struct {
 }
 
 func NewConfig() *Config {
-	return &Config{
-		BindAddr: ":8001",
-		LogLevel: "debug",
-	}
+	return &Config{}
 }
