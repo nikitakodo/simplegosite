@@ -7,8 +7,10 @@ create table recipe
 	category_id int not null,
 	cuisine_id int,
 	author_id int,
-    create_time timestamptz default current_timestamp not null,
-	update_time timestamptz
+    is_published bool default false not null,
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index recipe_id_uindex

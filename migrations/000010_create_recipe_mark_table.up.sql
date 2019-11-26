@@ -3,9 +3,10 @@ create table mark
 	id serial not null,
 	recipe_id int not null,
 	author_id int not null,
-	mark int not null,
-    create_time timestamptz default current_timestamp not null,
-	update_time timestamptz
+	value int not null,
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index mark_id_uindex

@@ -1,26 +1,23 @@
 package model
 
 import (
-	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
-	"strconv"
+	"github.com/jinzhu/gorm"
 )
 
 type Add struct {
-	ID         int          `json:"id"`
-	Title      string       `json:"title"`
-	FirstItem  string       `json:"first_item"`
-	SecondItem string       `json:"second_item"`
-	ThirdItem  string       `json:"third_item"`
-	FourthItem string       `json:"fourth_item"`
-	FirstImg   string       `json:"first_img"`
-	SecondImg  string       `json:"second_img"`
-	ThirdImg   string       `json:"third_img"`
-	CreateTime sql.NullTime `json:"create_time"`
-	UpdateTime sql.NullTime `json:"update_time"`
+	gorm.Model
+	Title      string
+	FirstItem  string
+	SecondItem string
+	ThirdItem  string
+	FourthItem string
+	FirstImg   string
+	SecondImg  string
+	ThirdImg   string
 }
 
-func (m Add) GetId() int {
+func (m Add) GetId() uint {
 	return m.ID
 }
 
@@ -29,7 +26,7 @@ func (m Add) GetTableCacheKey() string {
 }
 
 func (m Add) GetItemCacheKey() string {
-	return m.TableName() + "_" + strconv.Itoa(m.GetId())
+	return m.TableName() + "_" + string(m.GetId())
 }
 
 func (m Add) TableName() string {

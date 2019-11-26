@@ -1,0 +1,1 @@
+delete from recipe where true;

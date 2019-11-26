@@ -1,20 +1,17 @@
 package model
 
 import (
-	"database/sql"
-	"strconv"
+	"github.com/jinzhu/gorm"
 )
 
 type Social struct {
-	ID         int          `json:"id"`
-	Order      int          `json:"order" gorm:"column:order"`
-	Icon       string       `json:"icon" gorm:"column:icon"`
-	Url        string       `json:"url" gorm:"column:url"`
-	CreateTime sql.NullTime `json:"create_time" gorm:"column:create_time"`
-	UpdateTime sql.NullTime `json:"update_time" gorm:"column:update_time"`
+	gorm.Model
+	Order int    `json:"order" gorm:"column:order"`
+	Icon  string `json:"icon" gorm:"column:icon"`
+	Url   string `json:"url" gorm:"column:url"`
 }
 
-func (m Social) GetId() int {
+func (m Social) GetId() uint {
 	return m.ID
 }
 
@@ -23,7 +20,7 @@ func (m Social) GetTableCacheKey() string {
 }
 
 func (m Social) GetItemCacheKey() string {
-	return m.TableName() + "_" + strconv.Itoa(m.GetId())
+	return m.TableName() + "_" + string(m.GetId())
 }
 
 func (m Social) Validate() error {

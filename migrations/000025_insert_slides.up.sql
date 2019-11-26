@@ -1,2 +1,2 @@
- INSERT INTO slides ("id", "first_title", "second_title", "third_title", "img", "create_time", "update_time", "order") VALUES (DEFAULT, 'lol1', 'kek1', '4eburek1', '/assets/img/slider-bg-1.jpg', DEFAULT , DEFAULT , 1);
- INSERT INTO slides ("id", "first_title", "second_title", "third_title", "img", "create_time", "update_time", "order") VALUES (DEFAULT, '4eburek2', 'lol2', 'kek2', '/assets/img/slider-bg-2.jpg', DEFAULT , DEFAULT , 2);
+ INSERT INTO slides ("id", "first_title", "second_title", "third_title", "img", "created_at", "updated_at", "deleted_at", "order") VALUES (DEFAULT, 'lol1', 'kek1', '4eburek1', '/assets/img/slider-bg-1.jpg', DEFAULT , null, null , 1);
+ INSERT INTO slides ("id", "first_title", "second_title", "third_title", "img", "created_at", "updated_at", "deleted_at", "order") VALUES (DEFAULT, '4eburek2', 'lol2', 'kek2', '/assets/img/slider-bg-2.jpg', DEFAULT , null, null , 2);

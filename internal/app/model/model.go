@@ -1,7 +1,7 @@
 package model
 
 type Interface interface {
-	GetId() int
+	GetId() uint
 	Validate() error
 	TableName() string
 	GetTableCacheKey() string

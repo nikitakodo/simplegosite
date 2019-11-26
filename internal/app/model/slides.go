@@ -1,23 +1,20 @@
 package model
 
 import (
-	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
-	"strconv"
+	"github.com/jinzhu/gorm"
 )
 
 type Slide struct {
-	ID          int          `json:"id"`
-	Order       int          `json:"order"`
-	FirstTitle  string       `json:"first_title"`
-	SecondTitle string       `json:"second_title"`
-	ThirdTitle  string       `json:"third_title"`
-	Img         string       `json:"img"`
-	CreateTime  sql.NullTime `json:"create_time"`
-	UpdateTime  sql.NullTime `json:"update_time"`
+	gorm.Model
+	Order       int    `json:"order"`
+	FirstTitle  string `json:"first_title"`
+	SecondTitle string `json:"second_title"`
+	ThirdTitle  string `json:"third_title"`
+	Img         string `json:"img"`
 }
 
-func (m Slide) GetId() int {
+func (m Slide) GetId() uint {
 	return m.ID
 }
 
@@ -26,7 +23,7 @@ func (m Slide) GetTableCacheKey() string {
 }
 
 func (m Slide) GetItemCacheKey() string {
-	return m.TableName() + "_" + strconv.Itoa(m.GetId())
+	return m.TableName() + "_" + string(m.GetId())
 }
 
 func (m Slide) TableName() string {

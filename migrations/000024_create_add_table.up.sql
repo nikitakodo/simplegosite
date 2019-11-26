@@ -9,8 +9,9 @@ create table add
 	first_img text not null,
 	second_img text not null,
 	third_img text not null,
-	create_time timestamptz default current_timestamp not null,
-	update_time timestamptz default current_timestamp not null
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index add_id_uindex

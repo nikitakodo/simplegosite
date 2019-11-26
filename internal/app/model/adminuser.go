@@ -1,7 +1,9 @@
 package model
 
+import "github.com/jinzhu/gorm"
+
 type Admin struct {
-	ID                int
+	gorm.Model
 	Email             string
 	Password          string
 	EncryptedPassword string

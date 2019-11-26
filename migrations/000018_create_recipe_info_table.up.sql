@@ -7,8 +7,9 @@ create table recipe_info
 	prep int not null,
 	cook int not null,
 	yields int not null,
-    create_time timestamptz default current_timestamp  not null,
-	update_time timestamptz default current_timestamp
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index recipe_info_id_uindex

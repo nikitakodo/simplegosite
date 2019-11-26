@@ -7,8 +7,9 @@ create table bookmarks
 	author_id int not null
 		constraint bookmarks_author_id_fk
 			references author,
-	create_time timestamptz default current_timestamp not null,
-	update_time timestamptz default current_timestamp not null
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create index bookmarks_author_id_index

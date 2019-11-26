@@ -1,23 +1,25 @@
 package model
 
 import (
-	"database/sql"
-	"strconv"
+	"github.com/jinzhu/gorm"
 )
 
 type Recipe struct {
-	ID         int          `json:"id"`
-	Title      string       `json:"title"`
-	Body       string       `json:"body"`
-	Img        string       `json:"img"`
-	CategoryId int          `json:"category_id"`
-	CuisineId  int          `json:"cuisine_id"`
-	AuthorId   int          `json:"author_id"`
-	CreateTime sql.NullTime `json:"create_time"`
-	UpdateTime sql.NullTime `json:"update_time"`
+	gorm.Model
+	Title      string
+	Body       string
+	Img        string
+	CategoryId uint
+	CuisineId  uint
+	AuthorId   uint
+	Mark       []Mark   `gorm:"foreignkey:Id"`
+	Category   Category `gorm:"foreignkey:CategoryId"`
+	Cuisine    Cuisine  `gorm:"foreignkey:CuisineId"`
+	Author     Author   `gorm:"foreignkey:AuthorId"`
+	MarksCount int
 }
 
-func (m Recipe) GetId() int {
+func (m Recipe) GetId() uint {
 	return m.ID
 }
 
@@ -26,7 +28,7 @@ func (m Recipe) GetTableCacheKey() string {
 }
 
 func (m Recipe) GetItemCacheKey() string {
-	return m.TableName() + "_" + strconv.Itoa(m.GetId())
+	return m.TableName() + "_" + string(m.GetId())
 }
 
 func (m Recipe) TableName() string {
@@ -35,4 +37,23 @@ func (m Recipe) TableName() string {
 
 func (m Recipe) Validate() error {
 	return nil
+}
+
+func (m Recipe) CountMarks() int {
+	var marks int
+	d := len(m.Mark)
+	for _, row := range m.Mark {
+		marks += row.Value
+	}
+
+	return marks / d
+}
+
+func (m Recipe) MarksSlice() []bool {
+	a := m.CountMarks()
+	var s []bool = []bool{false, false, false, false, false}
+	for i := 0; i < a; i++ {
+		s[i] = true
+	}
+	return s
 }

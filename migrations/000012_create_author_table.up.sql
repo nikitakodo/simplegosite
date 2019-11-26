@@ -5,8 +5,9 @@ create table author
 	login text not null,
 	password text not null,
 	is_banned bool default false not null,
-    create_time timestamptz default current_timestamp not null,
-	update_time timestamptz
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index author_id_uindex

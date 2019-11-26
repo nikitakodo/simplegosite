@@ -4,8 +4,9 @@ create table nav
 	"order" int not null,
 	title text not null,
 	uri text not null,
-    create_time timestamptz default current_timestamp not null,
-	update_time timestamptz
+    created_at timestamptz default current_timestamp not null,
+	updated_at timestamptz,
+	deleted_at timestamptz
 );
 
 create unique index nav_id_uindex

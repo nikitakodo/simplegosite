@@ -5,8 +5,9 @@ create table slides
 	second_title text not null,
 	third_title text not null,
 	img text not null,
-    create_time timestamptz default current_timestamp not null,
-	update_time timestamptz
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index slides_id_uindex

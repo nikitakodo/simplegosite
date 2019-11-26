@@ -1,21 +1,18 @@
 package model
 
 import (
-	"database/sql"
 	validation "github.com/go-ozzo/ozzo-validation"
-	"strconv"
+	"github.com/jinzhu/gorm"
 )
 
 type Nav struct {
-	ID         int          `gorm:"primary_key" json:"id"`
-	Order      int          `gorm:"column:order" json:"order"`
-	Title      string       `gorm:"column:title" json:"title"`
-	Uri        string       `gorm:"column:uri" json:"uri"`
-	CreateTime sql.NullTime `gorm:"column:create_time" json:"create_time"`
-	UpdateTime sql.NullTime `gorm:"column:update_time" json:"update_time"`
+	gorm.Model
+	Order int    `gorm:"column:order" json:"order"`
+	Title string `gorm:"column:title" json:"title"`
+	Uri   string `gorm:"column:uri" json:"uri"`
 }
 
-func (m Nav) GetId() int {
+func (m Nav) GetId() uint {
 	return m.ID
 }
 
@@ -24,7 +21,7 @@ func (m Nav) GetTableCacheKey() string {
 }
 
 func (m Nav) GetItemCacheKey() string {
-	return m.TableName() + "_" + strconv.Itoa(m.GetId())
+	return m.TableName() + "_" + string(m.GetId())
 }
 
 func (m Nav) TableName() string {

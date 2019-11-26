@@ -6,8 +6,9 @@ create table ingredients
 		constraint ingredients_recipe_id_fk
 			references recipe
 				on delete restrict,
-	create_time timestamptz default current_timestamp  not null,
-	update_time timestamptz default current_timestamp
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index ingredients_id_uindex

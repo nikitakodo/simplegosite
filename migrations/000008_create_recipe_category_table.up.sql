@@ -3,8 +3,9 @@ create table category
 	id serial not null,
 	name text not null,
 	description text,
-    create_time timestamptz default current_timestamp not null,
-	update_time timestamptz
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index category_id_uindex

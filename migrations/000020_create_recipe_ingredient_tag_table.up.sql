@@ -7,8 +7,9 @@ create table recipe_ingredient_tag
     ingredient_tag_id int not null
 		constraint recipe_ingredient_tag_ingredient_tag_id_id_fk
 			references recipe,
-	create_time timestamptz default current_timestamp not null,
-	update_time timestamptz default current_timestamp not null
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create unique index recipe_ingredient_tag_id_uindex

@@ -10,8 +10,9 @@ create table comments
 			references author,
 	text text not null,
 	is_published bool default false not null,
-	create_time timestamptz default current_timestamp not null,
-	update_time timestamptz default current_timestamp not null
+    created_at timestamptz default current_timestamp not null,
+    updated_at timestamptz,
+    deleted_at timestamptz
 );
 
 create index comments_author_id_index
