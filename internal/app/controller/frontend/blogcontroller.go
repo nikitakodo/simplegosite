@@ -41,6 +41,27 @@ func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
 	}
 	data["add"] = add
 
+	latestRecipes, err := repository.RecipeRepository{Store: c.Store}.GetLatest(6, 0)
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+	data["latest"] = latestRecipes
+
+	topRated, err := repository.RecipeRepository{Store: c.Store}.GetLatest(6, 0)
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+	data["top_rated"] = topRated
+
+	mostLiked, err := repository.RecipeRepository{Store: c.Store}.GetLatest(6, 0)
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+	data["most_liked"] = mostLiked
+
 	err = c.View.ResponseTemplate(w, data, tmplName)
 	if err != nil {
 		c.Error(w, r, err)

@@ -1,0 +1,14 @@
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 1, 2, 1, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 1, 3, 4, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 1, 4, 3, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 1, 5, 4, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 1, 6, 5, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 2, 1, 1, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 2, 3, 2, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 2, 4, 5, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 2, 5, 4, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 2, 6, 5, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 3, 1, 1, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 3, 2, 3, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 3, 4, 3, DEFAULT, null, null);
+INSERT INTO mark ("id", "recipe_id", "author_id", "value", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 3, 5, 5, DEFAULT, null, null);

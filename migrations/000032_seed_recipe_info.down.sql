@@ -1,0 +1,1 @@
+delete from recipe_info where true;

@@ -1,0 +1,4 @@
+INSERT INTO recipe_info ("id", "recipe_id", "prep", "cook", "yields", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 1, 15, 30, 8, DEFAULT, null,null);
+INSERT INTO recipe_info ("id", "recipe_id", "prep", "cook", "yields", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 2, 15, 30, 8, DEFAULT, null,null);
+INSERT INTO recipe_info ("id", "recipe_id", "prep", "cook", "yields", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 3, 15, 30, 8, DEFAULT, null,null);
+INSERT INTO recipe_info ("id", "recipe_id", "prep", "cook", "yields", "created_at", "updated_at", "deleted_at") VALUES (DEFAULT, 4, 15, 30, 8, DEFAULT, null,null);
