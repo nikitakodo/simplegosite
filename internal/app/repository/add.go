@@ -26,7 +26,7 @@ func (r AddRepository) Create(m *model.Add) error {
 	return nil
 }
 
-func (r AddRepository) Find(id int) (*model.Add, error) {
+func (r AddRepository) Find(id uint) (*model.Add, error) {
 	var m model.Add
 	val, err := r.Store.Cache.Get(m.GetItemCacheKey())
 	if err != nil {

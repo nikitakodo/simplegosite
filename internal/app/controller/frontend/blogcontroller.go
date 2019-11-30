@@ -48,14 +48,14 @@ func (c *BlogController) Home(w http.ResponseWriter, r *http.Request) {
 	}
 	data["latest"] = latestRecipes
 
-	topRated, err := repository.RecipeRepository{Store: c.Store}.GetLatest(6, 0)
+	topRated, err := repository.RecipeRepository{Store: c.Store}.TopRated(5, 0)
 	if err != nil {
 		c.Error(w, r, err)
 		return
 	}
 	data["top_rated"] = topRated
 
-	mostLiked, err := repository.RecipeRepository{Store: c.Store}.GetLatest(6, 0)
+	mostLiked, err := repository.RecipeRepository{Store: c.Store}.MostLiked(5, 0)
 	if err != nil {
 		c.Error(w, r, err)
 		return

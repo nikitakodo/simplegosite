@@ -26,7 +26,7 @@ func (r NavRepository) Create(m *model.Nav) error {
 	return nil
 }
 
-func (r NavRepository) Find(id int) (*model.Nav, error) {
+func (r NavRepository) Find(id uint) (*model.Nav, error) {
 	var m model.Nav
 	val, err := r.Store.Cache.Get(m.GetItemCacheKey())
 	if err != nil {

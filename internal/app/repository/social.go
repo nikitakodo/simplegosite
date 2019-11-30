@@ -26,7 +26,7 @@ func (r SocialRepository) Create(m *model.Social) error {
 	return nil
 }
 
-func (r SocialRepository) Find(id int) (*model.Social, error) {
+func (r SocialRepository) Find(id uint) (*model.Social, error) {
 	var m model.Social
 	val, err := r.Store.Cache.Get(m.GetItemCacheKey())
 	if err != nil {

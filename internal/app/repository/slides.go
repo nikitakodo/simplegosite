@@ -26,7 +26,7 @@ func (r SlidesRepository) Create(m *model.Slide) error {
 	return nil
 }
 
-func (r SlidesRepository) Find(id int) (*model.Slide, error) {
+func (r SlidesRepository) Find(id uint) (*model.Slide, error) {
 	var m model.Slide
 	val, err := r.Store.Cache.Get(m.GetItemCacheKey())
 	if err != nil {

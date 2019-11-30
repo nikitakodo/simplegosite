@@ -7,8 +7,8 @@ type Mark struct {
 	RecipeId uint
 	AuthorId uint
 	Value    int
-	Recipe   Recipe `gorm:"foreignkey:ID"`
-	Author   Author `gorm:"foreignkey:ID"`
+	Recipe   Recipe `gorm:"foreignkey:RecipeId"`
+	Author   Author `gorm:"foreignkey:AuthorId"`
 }
 
 func (m Mark) GetId() uint {
