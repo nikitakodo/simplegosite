@@ -62,6 +62,16 @@ func (view *View) ResponseTemplate(w http.ResponseWriter, data map[string]interf
 	return
 }
 
+func (view *View) ProcessTemplate(data map[string]interface{}, templateName string) (res *string, err error) {
+	var tpl bytes.Buffer
+	err = view.Templates.ExecuteTemplate(&tpl, templateName, data)
+	if err != nil {
+		return nil, err
+	}
+	content := tpl.String()
+	return &content, nil
+}
+
 func (view *View) Error(w http.ResponseWriter, r *http.Request, code int, err error) {
 	_ = view.ExecuteTemplate(
 		w,
