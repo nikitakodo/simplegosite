@@ -2,7 +2,7 @@ package routing
 
 import (
 	"github.com/gorilla/handlers"
-	"simplesite/internal/app/controller/frontend"
+	"simplesite/internal/app/controller/blog"
 )
 
 func (r *Routing) setupBlogRoutes() {
@@ -16,21 +16,31 @@ func (r *Routing) setupBlogRoutes() {
 		),
 	)
 	for _, route := range routes {
-		r.Router.Methods(route.Method).Path(route.Pattern).Handler(route.Function)
+		r.Router.Methods(route.Method).Path(route.Pattern).Handler(route.Function).Name(route.Name)
 	}
 }
 
 func (r *Routing) routes() []Route {
-	blogController := frontend.BlogController{
+	blogController := blog.Controller{
 		View:   r.Di.View,
 		Logger: r.Di.Logger,
 		Store:  r.Di.Store,
+		Router: r.Router,
 	}
 	return []Route{
 		{
 			"/",
+			[]string{},
 			"GET",
+			"Home",
 			blogController.Home,
+		},
+		{
+			"/recipes",
+			[]string{"pages"},
+			"GET",
+			"Recipes",
+			blogController.Recipes,
 		},
 	}
 }

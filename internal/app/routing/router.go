@@ -19,7 +19,9 @@ type Routing struct {
 
 type Route struct {
 	Pattern  string
+	Query    []string
 	Method   string
+	Name     string
 	Function http.HandlerFunc
 }
 
