@@ -231,3 +231,13 @@ order by  count(m.id) desc`).Limit(limit).Offset(offset).Rows()
 	}
 	return recipes, nil
 }
+
+func (r RecipeRepository) GetLatestCount() (*int, error) {
+	var m model.Recipe
+	var count int
+	err := r.Store.Db.Model(&m).Where("is_published = ?", true).Count(&count).Error
+	if err != nil {
+		return nil, err
+	}
+	return &count, nil
+}
