@@ -1,31 +1,35 @@
 {{define "blog_partial_recipes"}}
-    <section class="recipes-section spad pt-0">
+    <section class="recipes-page spad">
         <div class="container">
-            <div class="section-title">
-                <h2>Latest recipes</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="section-title">
+                        <h2>Latest recipes</h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recipe-view">
+                        <i class="fa fa-bars"></i>
+                        <i class="fa fa-th active"></i>
+                    </div>
+                </div>
             </div>
             <div class="row">
-                {{range .latest}}
-                <div class="col-lg-4 col-md-6">
-                    <a href="/recipes/{{.ID}}" target="_blank"> <div class="recipe">
-                        <img src="{{asset .Img}}" alt="">
-                        <div class="recipe-info-warp">
-                            <div class="recipe-info">
-                                <h3>{{.Title}}</h3>
-                                <div class="rating">
-                                {{range $mark := .MarksSlice}}
-                                    {{if $mark}}
-                                        <i class="fa fa-star"></i>
-                                     {{else}}
-                                        <i class="fa fa-star is-fade"></i>
-                                    {{end}}
-                                {{end}}
-                                </div>
-                            </div>
-                        </div>
+                {{ range .latest.items}}
+                    <div class="col-lg-4 col-md-6">
+                        {{template "blog_partial_recipe" .}}
                     </div>
-                    </a>
-                </div>
+                {{end}}
+            </div>
+            <div class="site-pagination">
+                {{ range $num, $url := .latest.pages}}
+                    {{ if eq $num $.latest.current_page}}
+                        <span>{{$num}}</span>
+                    {{else}}
+                        <a href="{{$url}}?page={{$num}}">{{$num}}</a>
+                    {{end}}
+                {{else}}
+
                 {{end}}
             </div>
         </div>

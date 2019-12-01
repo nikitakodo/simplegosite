@@ -1,4 +1,4 @@
-{{define "blog_pages_home"}}
+{{define "blog_pages_recipes"}}
     <!DOCTYPE html>
     <html lang="en">
     {{template "blog_partial_head" .}}
@@ -13,20 +13,23 @@
     <!-- Header section end -->
 
     <!-- Hero section -->
-    {{template "blog_partial_slider" .}}
+    <section class="page-top-section set-bg" data-setbg="{{asset "img/page-top-bg.jpg" }}">
+        <div class="container">
+            <h2>Recipe</h2>
+        </div>
+    </section>
     <!-- Hero section end -->
 
-    <!-- Add section end -->
-    {{template "blog_partial_add" .}}
-    <!-- Add section end -->
+
+    <!-- Search section -->
+    {{template "blog_forms_search" .}}
+    <!-- Search section end -->
+
 
     <!-- Recipes section -->
-    {{template "blog_partial_latest_recipes" .}}
+    {{template "blog_partial_recipes" .}}
     <!-- Recipes section end -->
 
-    <!-- Footer widgets section -->
-    {{template "blog_partial_footer-widgets" .}}
-    <!-- Footer widgets section end -->
 
     <!-- Footer section  -->
     {{template "blog_partial_footer" .}}

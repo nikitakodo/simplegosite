@@ -1,17 +1,21 @@
 {{define "blog_partial_recipe"}}
     <div class="recipe">
-        <img src="{{asset "img/recipes/5.jpg"}}" alt="">
-        <div class="recipe-info-warp">
-            <div class="recipe-info">
-                <h3>Italian home-made pasta</h3>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star is-fade"></i>
+        <a href="/recipes/{{.ID}}" target="_blank">
+            <img src="{{asset .Img}}" alt="">
+            <div class="recipe-info-warp">
+                <div class="recipe-info">
+                    <h3>{{.Title}}</h3>
+                    <div class="rating">
+                        {{range $mark := .MarksSlice}}
+                            {{if $mark}}
+                                <i class="fa fa-star"></i>
+                            {{else}}
+                                <i class="fa fa-star is-fade"></i>
+                            {{end}}
+                        {{end}}
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 {{end}}
