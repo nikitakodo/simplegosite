@@ -1,12 +1,12 @@
-package frontend
+package blog
 
 import (
 	"github.com/sirupsen/logrus"
-	"net/http"
 	"simplesite/internal/app/model"
 	"simplesite/internal/app/repository"
 	"simplesite/internal/app/services"
 	"simplesite/internal/app/store"
+	"time"
 )
 
 type BasicPageData struct {
@@ -35,17 +35,18 @@ func GetBasicData(
 	return data, nil
 }
 
-func WriteCachedResponse(w http.ResponseWriter, templateName string, cache *store.Cache) bool {
-	val, err := cache.Get(templateName)
+func GetCachedView(templateName string, cache *store.Cache) (*string, error) {
+	result, err := cache.Get(templateName)
 	if err != nil {
-		return false
+		return nil, err
 	}
-	if len(*val) > 0 {
-		_, err := w.Write([]byte(*val))
-		if err != nil {
-			return false
-		}
-		return true
+	return result, nil
+}
+
+func SetCachedView(content string, key string, cache *store.Cache) error {
+	err := cache.Set(key, content, 60*10*time.Second)
+	if err != nil {
+		return err
 	}
-	return false
+	return nil
 }
