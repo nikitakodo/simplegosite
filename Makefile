@@ -33,4 +33,4 @@ new_migration:
 
 .PHONY: build
 build:
-		make start && make migrate_up
+		make start && sleep 10 && make migrate_up
