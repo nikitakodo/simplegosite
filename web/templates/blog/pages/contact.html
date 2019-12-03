@@ -1,0 +1,110 @@
+{{define "blog_pages_contact"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    {{template "blog_partial_head" .}}
+    <body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header section -->
+    {{template "blog_partial_header" .}}
+    <!-- Header section end -->    <!-- Hero section -->
+    <section class="page-top-section set-bg" data-setbg="{{asset "img/page-top-bg.jpg"}}">
+        <div class="container">
+            <h2>Contact</h2>
+        </div>
+    </section>
+    <!-- Hero section end -->
+
+    <!-- Search section -->
+    {{template "blog_forms_search" .}}
+    <!-- Search section end -->
+
+    <section class="contact-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="contact-form-warp">
+                        <h4>Leave a comment</h4>
+                        <form class="contact-form" action="{{.form_action}}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" placeholder="Name" name="name">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" placeholder="E-mail" name="email">
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" placeholder="Subject" name="subject">
+                                    <textarea placeholder="Message" name="message"></textarea>
+                                    <button class="site-btn">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="contact-logo">
+                        <img src="{{asset "img/logo.png"}}" alt="">
+                    </div>
+                    <div class="contact-info">
+                        <ul class="ct-list">
+                            <li>
+                                <h6>Address:</h6>
+                                {{unescape .info.address}}
+                            </li>
+                            <li>
+                                <h6>Phone:</h6>
+                                {{unescape .info.phone}}
+                            </li>
+                            <li>
+                                <h6>Email:</h6>
+                                {{unescape .info.email}}
+                            </li>
+                        </ul>
+                        <div class="contact-social">
+                            {{range .page.Social}}
+                                <a href="{{.Url}}"><i class="{{.Icon}}"></i></a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- map -->
+            <div class="location-map" id="map-canvas"></div>
+        </div>
+    </section>
+
+
+    <!-- Footer section  -->
+    {{template "blog_partial_footer" .}}
+    <!-- Footer section end -->
+
+
+    <!--====== Javascripts & Jquery ======-->
+    {{template "blog_partial_scripts" .}}
+
+    <!-- load for map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc"></script>
+    <script src="{{asset "js/map.js"}}"></script>
+    <script>
+        $('document').ready(function () {
+            $('.contact-form').submit(function (e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    method: "POST",
+                    url: this.action,
+                    data: form.serialize()
+                })
+                    .done(function (msg) {
+                        alert("Data Saved: " + msg);
+                    });
+            });
+        });
+    </script>
+    </body>
+    </html>
+{{end}}

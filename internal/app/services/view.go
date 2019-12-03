@@ -34,6 +34,9 @@ func NewView(
 			"upload": func(filePath string) string {
 				return fmt.Sprintf("/%s/%s", uploadsDir, filePath)
 			},
+			"unescape": func(s string) template.HTML {
+				return template.HTML(s)
+			},
 		}).
 		ParseGlob(templatesDir + "/*/*/*.html")
 	if err != nil {

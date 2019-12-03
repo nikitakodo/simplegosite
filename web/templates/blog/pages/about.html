@@ -1,0 +1,94 @@
+{{define "blog_pages_about"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    {{template "blog_partial_head" .}}
+    <body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header section -->
+    {{template "blog_partial_header" .}}
+    <!-- Header section end -->
+
+    <!-- Hero section -->
+    <section class="page-top-section set-bg" data-setbg="{{asset "img/page-top-bg.jpg"}}">
+        <div class="container">
+            <h2>About us</h2>
+        </div>
+    </section>
+    <!-- Hero section end -->
+
+    <!-- Search section -->
+    {{template "blog_forms_search" .}}
+    <!-- Search section end -->
+
+    <!-- About section -->
+    <section class="about-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 about-text">
+                    <h2>{{.about.Title}}</h2>
+                    <p>{{.about.Text}}</p>
+                    <div class="site-btn">Read more</div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="{{asset .about.Img}}" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About section end -->
+
+    <!-- Facts section -->
+    <section class="facts-section">
+        <div class="facts-warp">
+            <div class="container">
+                <div class="row">
+                    {{range $key, $map := .facts}}
+                        <div class="col-lg-3 col-sm-6 fact-item">
+                            <div class="fact-icon">
+                                <img src="{{ asset $map.icon}}" alt="">
+                            </div>
+                            <h2>{{$map.count}}</h2>
+                            <p>{{$key}}</p>
+                        </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Facts section end -->
+
+    <!-- Newsletter section -->
+    <section class="newsletter-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 nl-text">
+                    <h2>Subscribe to our newsletter</h2>
+                    <form class="newsletter-form">
+                        <input type="text" placeholder="Your E-mail">
+                        <button class="site-btn">Subscribe</button>
+                    </form>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse
+                        potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor
+                        enim. </p>
+                </div>
+                <div class="col-lg-6">
+                    <img class="nl-sp-img" src="img/newslatter.png" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Newsletter section end -->
+
+    <!-- Footer section  -->
+    {{template "blog_partial_footer" .}}
+    <!-- Footer section end -->
+
+    <!--====== Javascripts & Jquery ======-->
+    {{template "blog_partial_scripts" .}}
+    </body>
+    </html>
+{{end}}
