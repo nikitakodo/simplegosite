@@ -2,6 +2,7 @@ package routing
 
 import (
 	"github.com/gorilla/handlers"
+	"net/http"
 	"simplesite/internal/app/controller/blog"
 )
 
@@ -18,6 +19,9 @@ func (r *Routing) setupBlogRoutes() {
 	for _, route := range routes {
 		r.Router.Methods(route.Method).Path(route.Pattern).Handler(route.Function).Name(route.Name)
 	}
+
+	r.Router.NotFoundHandler = r.notFound()
+	r.Router.MethodNotAllowedHandler = r.notFound()
 }
 
 func (r *Routing) routes() []Route {
@@ -37,12 +41,43 @@ func (r *Routing) routes() []Route {
 		},
 		{
 			"/recipes",
-			[]string{"pages"},
+			[]string{},
 			"GET",
 			"Recipes",
 			blogController.Recipes,
 		},
+		{
+			"/about",
+			[]string{},
+			"GET",
+			"About",
+			blogController.About,
+		},
+		{
+			"/contact",
+			[]string{},
+			"GET",
+			"Contact",
+			blogController.Contact,
+		},
+		{
+			"/contact_form",
+			[]string{},
+			"POST",
+			"ContactForm",
+			blogController.ContactForm,
+		},
 	}
+}
+
+func (r *Routing) notFound() http.Handler {
+	blogController := blog.Controller{
+		View:   r.Di.View,
+		Logger: r.Di.Logger,
+		Store:  r.Di.Store,
+		Router: r.Router,
+	}
+	return http.HandlerFunc(blogController.NotFound)
 }
 
 //s.GlobalDi.Routing.Router.Use(s.Routing.Middleware.LogRequest)
