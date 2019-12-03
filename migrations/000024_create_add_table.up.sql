@@ -22,6 +22,6 @@ alter table add
 		primary key (id);
 
 create trigger add
-before update on bookmarks
+before update on add
 for each row
 execute procedure trigger_set_timestamp();
