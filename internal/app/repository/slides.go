@@ -37,7 +37,7 @@ func (r SlidesRepository) Find(id uint) (*model.Slide, error) {
 		if err != nil {
 			return nil, err
 		}
-		err = r.Store.Cache.SetStruct(m.GetTableCacheKey(), m)
+		err = r.Store.Cache.SetStruct(m.GetItemCacheKey(), m)
 		if err != nil {
 			return nil, err
 		}
