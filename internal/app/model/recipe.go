@@ -8,6 +8,7 @@ type Recipe struct {
 	gorm.Model
 	Title      string
 	Body       string
+	Banner     string
 	Img        string
 	CategoryId uint
 	CuisineId  uint

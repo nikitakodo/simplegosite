@@ -165,6 +165,54 @@ func (c *Controller) Recipes(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (c *Controller) Recipe(w http.ResponseWriter, r *http.Request) {
+	tmplName := "blog_pages_recipe"
+	vars := mux.Vars(r)
+	recipeId := vars["id"]
+	recipeIdUint, err := strconv.ParseUint(recipeId, 10, 64)
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+	if res, err := GetCachedView(tmplName+"_"+recipeId, c.Store.Cache); err == nil && len(*res) > 0 {
+		_, err := w.Write([]byte(*res))
+		if err != nil {
+			c.Error(w, r, err)
+			return
+		}
+		return
+	}
+
+	data := map[string]interface{}{}
+	page, err := GetBasicData(c.View, c.Logger, c.Store)
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+	data["page"] = page
+
+	rr := repository.RecipeRepository{Store: c.Store}
+
+	recipe, err := rr.Find(uint(recipeIdUint))
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+	data["recipe"] = recipe
+	data["form_action"] = "/comment"
+	content, err := c.View.ProcessTemplate(data, tmplName)
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+	_ = SetCachedView(*content, tmplName, c.Store.Cache)
+	_, err = w.Write([]byte(*content))
+	if err != nil {
+		c.Error(w, r, err)
+		return
+	}
+}
+
 func (c *Controller) About(w http.ResponseWriter, r *http.Request) {
 	tmplName := "blog_pages_about"
 	if res, err := GetCachedView(tmplName, c.Store.Cache); err == nil && len(*res) > 0 {

@@ -4,6 +4,7 @@ create table recipe
 	title text not null,
 	body text not null,
 	img text not null,
+    banner text not null,
 	category_id int not null,
 	cuisine_id int,
 	author_id int,

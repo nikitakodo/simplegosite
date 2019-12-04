@@ -47,6 +47,13 @@ func (r *Routing) routes() []Route {
 			blogController.Recipes,
 		},
 		{
+			"/recipes/{id}",
+			[]string{},
+			"GET",
+			"Recipe",
+			blogController.Recipe,
+		},
+		{
 			"/about",
 			[]string{},
 			"GET",
