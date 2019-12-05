@@ -20,6 +20,8 @@ type View struct {
 func NewView(
 	templatesDir string,
 	assetsDir string,
+	adminAssetsDir string,
+	cabinetAssetsDir string,
 	uploadsDir string,
 	cache *store.Cache,
 ) (view View, err error) {
@@ -30,6 +32,12 @@ func NewView(
 		Funcs(template.FuncMap{
 			"asset": func(filePath string) string {
 				return fmt.Sprintf("/%s/%s", assetsDir, filePath)
+			},
+			"admin_asset": func(filePath string) string {
+				return fmt.Sprintf("/%s/%s", adminAssetsDir, filePath)
+			},
+			"cabinet_asset": func(filePath string) string {
+				return fmt.Sprintf("/%s/%s", cabinetAssetsDir, filePath)
 			},
 			"upload": func(filePath string) string {
 				return fmt.Sprintf("/%s/%s", uploadsDir, filePath)
@@ -75,11 +83,22 @@ func (view *View) ProcessTemplate(data map[string]interface{}, templateName stri
 	return &content, nil
 }
 
-func (view *View) Error(w http.ResponseWriter, r *http.Request, code int, err error) {
-	_ = view.ExecuteTemplate(
-		w,
-		map[string]interface{}{"code": code},
-		"blog_error_"+strconv.Itoa(code),
-	)
+func (view *View) BlogError(w http.ResponseWriter, r *http.Request, code int, err error) {
+	view.Error(w, "blog_error_"+strconv.Itoa(code), map[string]interface{}{"code": code})
+	return
+}
+
+func (view *View) CabinetError(w http.ResponseWriter, r *http.Request, code int, err error) {
+	view.Error(w, "cabinet_error_"+strconv.Itoa(code), map[string]interface{}{"code": code})
+	return
+}
+
+func (view *View) AdminError(w http.ResponseWriter, r *http.Request, code int, err error) {
+	view.Error(w, "admin_error_"+strconv.Itoa(code), map[string]interface{}{"code": code})
+	return
+}
+
+func (view *View) Error(w http.ResponseWriter, tmpl string, data map[string]interface{}) {
+	_ = view.ExecuteTemplate(w, data, tmpl)
 	return
 }

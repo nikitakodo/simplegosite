@@ -8,7 +8,6 @@ import (
 
 func (r *Routing) setupBlogRoutes() {
 
-	routes := r.routes()
 	r.Router.Use(
 		r.Middleware.SetRequestID,
 		r.Middleware.LogRequest,
@@ -16,68 +15,70 @@ func (r *Routing) setupBlogRoutes() {
 			handlers.AllowedOrigins([]string{r.Config.Origin}),
 		),
 	)
-	for _, route := range routes {
-		r.Router.Methods(route.Method).Path(route.Pattern).Handler(route.Function).Name(route.Name)
-	}
-
-	r.Router.NotFoundHandler = r.notFound()
-	r.Router.MethodNotAllowedHandler = r.notFound()
-}
-
-func (r *Routing) routes() []Route {
 	blogController := blog.Controller{
 		View:   r.Di.View,
 		Logger: r.Di.Logger,
 		Store:  r.Di.Store,
 		Router: r.Router,
 	}
+	routes := r.blogRoutes(blogController)
+	for _, route := range routes {
+		r.Router.Methods(route.Method).Path(route.Pattern).Handler(route.Function).Name(route.Name)
+	}
+
+	r.Router.NotFoundHandler = r.blogNotFound()
+	r.Router.MethodNotAllowedHandler = r.blogNotFound()
+}
+
+func (r *Routing) blogRoutes(controller blog.Controller) []Route {
+
 	return []Route{
 		{
 			"/",
 			[]string{},
 			"GET",
 			"Home",
-			blogController.Home,
+			controller.Home,
 		},
 		{
 			"/recipes",
 			[]string{},
 			"GET",
 			"Recipes",
-			blogController.Recipes,
+			controller.Recipes,
 		},
 		{
 			"/recipes/{id}",
 			[]string{},
 			"GET",
 			"Recipe",
-			blogController.Recipe,
+			controller.Recipe,
 		},
 		{
 			"/about",
 			[]string{},
 			"GET",
 			"About",
-			blogController.About,
+			controller.About,
 		},
 		{
 			"/contact",
 			[]string{},
 			"GET",
 			"Contact",
-			blogController.Contact,
+			controller.Contact,
 		},
 		{
 			"/contact_form",
 			[]string{},
 			"POST",
 			"ContactForm",
-			blogController.ContactForm,
+			controller.ContactForm,
 		},
 	}
 }
 
-func (r *Routing) notFound() http.Handler {
+func (r *Routing) blogNotFound() http.Handler {
 	blogController := blog.Controller{
 		View:   r.Di.View,
 		Logger: r.Di.Logger,

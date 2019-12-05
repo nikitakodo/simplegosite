@@ -1,17 +1,19 @@
 package config
 
 type Config struct {
-	AllowedOrigins string   `toml:"allowed_origins"`
-	BindAddr       string   `toml:"bind_addr"`
-	LogLevel       string   `toml:"log_level"`
-	TemplatesDir   string   `toml:"templates"`
-	AssetsDir      string   `toml:"assets"`
-	AssetsUrl      string   `toml:"assets_url"`
-	UploadsDir     string   `toml:"uploads"`
-	UploadsUrl     string   `toml:"uploads_url"`
-	DB             database `toml:"database"`
-	Session        session  `toml:"session"`
-	Cache          cache    `toml:"cache"`
+	AllowedOrigins   string   `toml:"allowed_origins"`
+	BindAddr         string   `toml:"bind_addr"`
+	LogLevel         string   `toml:"log_level"`
+	TemplatesDir     string   `toml:"templates"`
+	AssetsDir        string   `toml:"assets"`
+	AssetsUrl        string   `toml:"assets_url"`
+	AdminAssetsUrl   string   `toml:"admin_assets_url"`
+	CabinetAssetsUrl string   `toml:"cabinet_assets_url"`
+	UploadsDir       string   `toml:"uploads"`
+	UploadsUrl       string   `toml:"uploads_url"`
+	DB               database `toml:"database"`
+	Session          session  `toml:"session"`
+	Cache            cache    `toml:"cache"`
 }
 type database struct {
 	Url           string

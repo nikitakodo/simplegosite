@@ -49,7 +49,7 @@ func Factory(config *config.Config) (*GlobalDi, error) {
 	sessionStore := sessions.NewCookieStore([]byte(config.Session.Key))
 	session := services.NewSession(config.Session.Name, sessionStore)
 
-	view, err := services.NewView(config.TemplatesDir, config.AssetsUrl, config.UploadsUrl, cache)
+	view, err := services.NewView(config.TemplatesDir, config.AssetsUrl, config.AdminAssetsUrl, config.CabinetAssetsUrl, config.UploadsUrl, cache)
 	if err != nil {
 		return nil, err
 	}

@@ -38,6 +38,7 @@ func Factory(globalDi *di.GlobalDi, conf RouterConfig) Routing {
 		Config:     conf,
 	}
 	r.setupBlogRoutes()
+	r.setupCabinetRoutes()
 
 	return r
 }

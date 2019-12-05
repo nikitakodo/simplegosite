@@ -331,12 +331,12 @@ func (c *Controller) ContactForm(w http.ResponseWriter, r *http.Request) {
 
 func (c *Controller) NotFound(w http.ResponseWriter, r *http.Request) {
 	c.Logger.Error(r.RequestURI)
-	c.View.Error(w, r, http.StatusNotFound, errors.New(r.RequestURI+" not found"))
+	c.View.BlogError(w, r, http.StatusNotFound, errors.New(r.RequestURI+" not found"))
 	return
 }
 
 func (c *Controller) Error(w http.ResponseWriter, r *http.Request, err error) {
 	c.Logger.Error(err)
-	c.View.Error(w, r, http.StatusInternalServerError, err)
+	c.View.BlogError(w, r, http.StatusInternalServerError, err)
 	return
 }
