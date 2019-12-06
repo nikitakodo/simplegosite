@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"simplesite/internal/app/di"
+	"simplesite/internal/app/repository"
 	"time"
 )
 
@@ -60,29 +61,36 @@ func (m Service) LogRequest(next http.Handler) http.Handler {
 	})
 }
 
-func (m Service) AdminAuth(next http.Handler) http.Handler {
-	return http.HandlerFunc(
-		func(w http.ResponseWriter, r *http.Request) {
-			//session, err := m.Di.Session.SessionStore.Get(r, m.Di.Session.SessionName)
-			//if err != nil {
-			//	m.Di.View.Error(w, r, http.StatusInternalServerError, err)
-			//	return
-			//}
-			//
-			//id, ok := session.Values["user_id"]
-			//if !ok {
-			//	//View{}.error(w, r, http.StatusUnauthorized, errNotAuthenticated)
-			//	return
-			//}
-			//
-			//u, err := m.Di.Store.User().Find(id.(int))
-			//if err != nil {
-			//	//s.error(w, r, http.StatusUnauthorized, errNotAuthenticated)
-			//	return
-			//}
+func (m Service) CabinetAuth(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-			//next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), ctxKeyUser, u)))
-		})
+		signin, err := m.Di.Router.GetRoute("SignIn").URL()
+		if err != nil {
+			m.Di.View.CabinetError(w, r, http.StatusInternalServerError, err)
+			return
+		}
+
+		session, err := m.Di.Session.SessionStore.Get(r, m.Di.Session.SessionName)
+		if err != nil {
+			m.Di.View.CabinetError(w, r, http.StatusInternalServerError, err)
+			return
+		}
+
+		id, ok := session.Values["user_id"].(uint)
+		if !ok {
+			http.Redirect(w, r, signin.Path, http.StatusSeeOther)
+			return
+		}
+
+		authorRepo := repository.AuthorRepository{Store: m.Di.Store}
+		author, err := authorRepo.Find(id)
+		if err != nil {
+			http.Redirect(w, r, signin.Path, http.StatusSeeOther)
+			return
+		}
+
+		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), ctxKeyUser, author)))
+	})
 }
 
 //func (s *App) handleWhoami() http.HandlerFunc {

@@ -17,6 +17,7 @@ func Start(config *config.Config) error {
 	defer diContainer.Store.Db.Close()
 	defer diContainer.Store.Cache.Client.Close()
 	router := routing.Factory(diContainer, routing.RouterConfig{Origin: config.AllowedOrigins})
+	diContainer.Router = router.Router
 
 	return http.ListenAndServe(config.BindAddr, newHandler(diContainer, router))
 }

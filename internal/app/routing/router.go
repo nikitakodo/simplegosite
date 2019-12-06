@@ -18,11 +18,11 @@ type Routing struct {
 }
 
 type Route struct {
-	Pattern  string
-	Query    []string
-	Method   string
-	Name     string
-	Function http.HandlerFunc
+	Pattern    string
+	Middleware []mux.MiddlewareFunc
+	Method     []string
+	Name       string
+	Function   http.HandlerFunc
 }
 
 type RouterConfig struct {

@@ -23,7 +23,7 @@ func (r *Routing) setupBlogRoutes() {
 	}
 	routes := r.blogRoutes(blogController)
 	for _, route := range routes {
-		r.Router.Methods(route.Method).Path(route.Pattern).Handler(route.Function).Name(route.Name)
+		r.Router.Methods(route.Method...).Path(route.Pattern).Handler(route.Function).Name(route.Name)
 	}
 
 	r.Router.NotFoundHandler = r.blogNotFound()
@@ -35,43 +35,43 @@ func (r *Routing) blogRoutes(controller blog.Controller) []Route {
 	return []Route{
 		{
 			"/",
-			[]string{},
-			"GET",
+			nil,
+			[]string{"GET"},
 			"Home",
 			controller.Home,
 		},
 		{
 			"/recipes",
-			[]string{},
-			"GET",
+			nil,
+			[]string{"GET"},
 			"Recipes",
 			controller.Recipes,
 		},
 		{
 			"/recipes/{id}",
-			[]string{},
-			"GET",
+			nil,
+			[]string{"GET"},
 			"Recipe",
 			controller.Recipe,
 		},
 		{
 			"/about",
-			[]string{},
-			"GET",
+			nil,
+			[]string{"GET"},
 			"About",
 			controller.About,
 		},
 		{
 			"/contact",
-			[]string{},
-			"GET",
+			nil,
+			[]string{"GET"},
 			"Contact",
 			controller.Contact,
 		},
 		{
 			"/contact_form",
-			[]string{},
-			"POST",
+			nil,
+			[]string{"POST"},
 			"ContactForm",
 			controller.ContactForm,
 		},
