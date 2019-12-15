@@ -1,10 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{{define "cabinet_grids_recipes"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    {{template "cabinet_partial_head" .}}
+    <body>
+    <!--*******************Preloader start********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+            </svg>
+        </div>
+    </div>
+    <!--*******************Preloader end********************-->
+    <!--**********************************Main wrapper start***********************************-->
+    <div id="main-wrapper">
+        <!--**********************************Nav header start***********************************-->
+        {{template "cabinet_partial_headernav" .}}
+        <!--**********************************Nav header end***********************************-->
+        <!--**********************************Header start***********************************-->
+        {{template "cabinet_partial_header" .}}
+        <!--**********************************Header end ti-comment-alt***********************************-->
+        <!--**********************************Sidebar start***********************************-->
+        {{template "cabinet_partial_sidebar" .}}
+        <!--**********************************Sidebar end***********************************-->
+        <!--**********************************Content body start***********************************-->
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Data Table</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered zero-configuration">
+                                        <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Cuisine</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{range .recipes}}
+                                            <tr>
+                                                <td>{{.GetId}}</td>
+                                                <td>{{.Title}}</td>
+                                                <td>{{.Category.GetId}}</td>
+                                                <td>{{.Cuisine.GetId}}</td>
+                                                <td>{{.FormatedDate}}</td>
+                                            </tr>
+                                        {{end}}
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Cuisine</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************Content body end***********************************-->
+        <!--**********************************Footer start***********************************-->
+        {{template "cabinet_partial_footer" .}}
+        <!--**********************************Footer end***********************************-->
+    </div>
+    <!--**********************************Main wrapper end***********************************-->
+    <!--**********************************Scripts***********************************-->
+    {{template "cabinet_partial_scripts" .}}
 
-</body>
-</html>
+    <script src="{{cabinet_asset "plugins/tables/js/jquery.dataTables.min.js"}}"></script>
+    <script src="{{cabinet_asset "plugins/tables/js/datatable/dataTables.bootstrap4.min.js"}}"></script>
+    <script src="{{cabinet_asset "plugins/tables/js/datatable-init/datatable-basic.min.js"}}"></script>
+
+    </body>
+    </html>
+{{end}}

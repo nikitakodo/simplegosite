@@ -1,3 +1,44 @@
 {{define "cabinet_grids_dashboard"}}
-<h1>dashboard</h1>
+    <!DOCTYPE html>
+    <html lang="en">
+    {{template "cabinet_partial_head" .}}
+    <body>
+    <!--*******************Preloader start********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+            </svg>
+        </div>
+    </div>
+    <!--*******************Preloader end********************-->
+    <!--**********************************Main wrapper start***********************************-->
+    <div id="main-wrapper">
+        <!--**********************************Nav header start***********************************-->
+        {{template "cabinet_partial_headernav" .}}
+        <!--**********************************Nav header end***********************************-->
+        <!--**********************************Header start***********************************-->
+        {{template "cabinet_partial_header" .}}
+        <!--**********************************Header end ti-comment-alt***********************************-->
+        <!--**********************************Sidebar start***********************************-->
+        {{template "cabinet_partial_sidebar" .}}
+        <!--**********************************Sidebar end***********************************-->
+        <!--**********************************Content body start***********************************-->
+        <div class="content-body">
+            <div class="container-fluid">
+                <h1>dashboard</h1>
+                Hello {{.author.Name}}
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************Content body end***********************************-->
+        <!--**********************************Footer start***********************************-->
+        {{template "cabinet_partial_footer" .}}
+        <!--**********************************Footer end***********************************-->
+    </div>
+    <!--**********************************Main wrapper end***********************************-->
+    <!--**********************************Scripts***********************************-->
+    {{template "cabinet_partial_scripts" .}}
+    </body>
+    </html>
 {{end}}

@@ -4,15 +4,22 @@ import (
 	"net/http"
 )
 
-type Interface interface {
-	Action(w http.ResponseWriter, r *http.Request)
+type Reader interface {
+	Read(w http.ResponseWriter, r *http.Request)
 }
 
-type ResourceInterface interface {
-	GetName() string
-	Read(w http.ResponseWriter, r *http.Request)
+type BulkReader interface {
 	ReadAll(w http.ResponseWriter, r *http.Request)
+}
+
+type Creator interface {
 	Create(w http.ResponseWriter, r *http.Request)
+}
+
+type Updater interface {
 	Update(w http.ResponseWriter, r *http.Request)
+}
+
+type Deleter interface {
 	Delete(w http.ResponseWriter, r *http.Request)
 }

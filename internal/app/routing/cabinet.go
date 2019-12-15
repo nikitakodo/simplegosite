@@ -51,6 +51,34 @@ func (r *Routing) cabinetRoutes(controller cabinet.Controller) []Route {
 			"CabinetHome",
 			controller.Home,
 		},
+		{
+			"/recipes",
+			[]mux.MiddlewareFunc{r.Middleware.CabinetAuth},
+			[]string{"GET"},
+			"CabinetRecipes",
+			controller.RecipeList,
+		},
+		{
+			"/recipes/create",
+			[]mux.MiddlewareFunc{r.Middleware.CabinetAuth},
+			[]string{"GET"},
+			"CabinetCreateRecipe",
+			controller.CreateRecipe,
+		},
+		{
+			"/profile/edit",
+			[]mux.MiddlewareFunc{r.Middleware.CabinetAuth},
+			[]string{"GET", "POST"},
+			"CabinetEditProfile",
+			controller.EditProfile,
+		},
+		{
+			"/profile/password",
+			[]mux.MiddlewareFunc{r.Middleware.CabinetAuth},
+			[]string{"GET", "POST"},
+			"CabinetEditProfile",
+			controller.UpdatePassword,
+		},
 	}
 }
 

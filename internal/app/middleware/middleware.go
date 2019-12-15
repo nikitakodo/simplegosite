@@ -10,13 +10,6 @@ import (
 	"time"
 )
 
-type ctxKey int8
-
-const (
-	ctxKeyUser ctxKey = iota
-	ctxKeyRequestID
-)
-
 type Service struct {
 	Di *di.GlobalDi
 }
@@ -25,7 +18,7 @@ func (m Service) SetRequestID(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := uuid.New().String()
 		w.Header().Set("X-Request-ID", id)
-		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), ctxKeyRequestID, id)))
+		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), m.Di.Session.GetRequestIdKey(), id)))
 	})
 }
 
@@ -34,7 +27,7 @@ func (m Service) LogRequest(next http.Handler) http.Handler {
 		log := logrus.New()
 		logger := log.WithFields(logrus.Fields{
 			"remote_addr": r.RemoteAddr,
-			"request_id":  r.Context().Value(ctxKeyRequestID),
+			"request_id":  r.Context().Value(m.Di.Session.GetRequestIdKey()),
 		})
 		logger.Infof("started %s %s", r.Method, r.RequestURI)
 
@@ -89,13 +82,13 @@ func (m Service) CabinetAuth(next http.Handler) http.Handler {
 			return
 		}
 
-		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), ctxKeyUser, author)))
+		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), m.Di.Session.GetAuthorSessionKey(), author)))
 	})
 }
 
 //func (s *App) handleWhoami() http.HandlerFunc {
 //	return func(w http.ResponseWriter, r *http.Request) {
-//		s.respond(w, r, http.StatusOK, r.Context().Value(ctxKeyUser).(*model.User))
+//		s.respond(w, r, http.StatusOK, r.Context().Value(ctxKeyAuthorSession).(*model.User))
 //	}
 //}
 //

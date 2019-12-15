@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ${APP_HOST}
+    hostname: ${APP_HOST}
     env_file:
       - .env
     ports:
@@ -22,6 +22,7 @@ services:
   db:
     image: postgres
     restart: always
+    hostname: ${DB_HOST}
     container_name: ${DB_HOST}
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -31,9 +32,9 @@ services:
       - ${DB_PORT}:5432
 
   redis:
-    container_name: ${REDIS_HOST}
     restart: always
     image: redis:latest
+    container_name: ${REDIS_HOST}
     hostname: ${REDIS_HOST}
     ports:
       - ${REDIS_PORT}:6379

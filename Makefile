@@ -34,3 +34,7 @@ new_migration:
 .PHONY: build
 build:
 		make start && sleep 10 && make migrate_up
+
+.PHONY: hard-reset
+hard-reset:
+		docker-compose down -v && make start && sleep 3 && make migrate_up

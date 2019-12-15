@@ -3,7 +3,6 @@ package routing
 import (
 	"github.com/gorilla/mux"
 	"net/http"
-	"simplesite/internal/app/controller"
 	"simplesite/internal/app/di"
 	"simplesite/internal/app/middleware"
 	"strings"
@@ -51,15 +50,16 @@ func (r Routing) GetRoute(subRoute string, path string, method string) (*string,
 	return &route.Path, nil
 }
 
-func (r Routing) ConfigureRecourse(subRoute string, resource controller.ResourceInterface) {
-	recourseName := resource.GetName()
-	recourseRouter := r.Router.PathPrefix("/" + recourseName).Subrouter()
-	recourseRouter.HandleFunc("/{id}", resource.Read).Methods("GET").Name(routeName(subRoute, recourseName, "read"))
-	recourseRouter.HandleFunc("/", resource.ReadAll).Methods("GET").Name(routeName(subRoute, recourseName, "read_all"))
-	recourseRouter.HandleFunc("/create", resource.Create).Methods("GET", "POST").Name(routeName(subRoute, recourseName, "create"))
-	recourseRouter.HandleFunc("/{id}/update", resource.Update).Methods("POST").Name(routeName(subRoute, recourseName, "update"))
-	recourseRouter.HandleFunc("/{id}/delete", resource.Delete).Methods("POST").Name(routeName(subRoute, recourseName, "delete"))
-}
+//
+//func (r Routing) ConfigureRecourse(subRoute string, resource controller.ResourceInterface) {
+//	recourseName := resource.GetName()
+//	recourseRouter := r.Router.PathPrefix("/" + recourseName).Subrouter()
+//	recourseRouter.HandleFunc("/{id}", resource.Read).Methods("GET").Name(routeName(subRoute, recourseName, "read"))
+//	recourseRouter.HandleFunc("/", resource.ReadAll).Methods("GET").Name(routeName(subRoute, recourseName, "read_all"))
+//	recourseRouter.HandleFunc("/create", resource.Create).Methods("GET", "POST").Name(routeName(subRoute, recourseName, "create"))
+//	recourseRouter.HandleFunc("/{id}/update", resource.Update).Methods("POST").Name(routeName(subRoute, recourseName, "update"))
+//	recourseRouter.HandleFunc("/{id}/delete", resource.Delete).Methods("POST").Name(routeName(subRoute, recourseName, "delete"))
+//}
 
 func routeName(subRoute string, path string, method string) string {
 	return strings.Join([]string{subRoute, path, method}, "_")

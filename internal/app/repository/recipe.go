@@ -241,3 +241,20 @@ func (r RecipeRepository) GetLatestCount() (*int, error) {
 	}
 	return &count, nil
 }
+
+func (r RecipeRepository) FindByAuthor(author *model.Author) ([]*model.Recipe, error) {
+	var m model.Recipe
+	var res []*model.Recipe
+	err := r.Store.Db.
+		Preload("Category").
+		Preload("Cuisine").
+		Preload("Mark").
+		Model(&m).
+		Where("author_id = ?", author.GetId()).
+		Find(&res).
+		Error
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
