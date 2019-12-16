@@ -45,11 +45,11 @@
                                         <tbody>
                                         {{range .recipes}}
                                             <tr>
-                                                <td>{{.GetId}}</td>
-                                                <td>{{.Title}}</td>
-                                                <td>{{.Category.GetId}}</td>
-                                                <td>{{.Cuisine.GetId}}</td>
-                                                <td>{{.FormatedDate}}</td>
+                                                <td><a href="{{.Path}}" target="_blank">{{.Id}}</a></td>
+                                                <td><a href="{{.Path}}" target="_blank">{{.Title}}</a></td>
+                                                <td><a href="{{.Path}}" target="_blank">{{.Category}}</a></td>
+                                                <td><a href="{{.Path}}" target="_blank">{{.Cuisine}}</a></td>
+                                                <td><a href="{{.Path}}" target="_blank">{{.FormatedDate}}</a></td>
                                             </tr>
                                         {{end}}
                                         </tbody>

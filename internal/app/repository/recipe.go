@@ -248,7 +248,6 @@ func (r RecipeRepository) FindByAuthor(author *model.Author) ([]*model.Recipe, e
 	err := r.Store.Db.
 		Preload("Category").
 		Preload("Cuisine").
-		Preload("Mark").
 		Model(&m).
 		Where("author_id = ?", author.GetId()).
 		Find(&res).

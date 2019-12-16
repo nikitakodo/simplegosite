@@ -5,9 +5,10 @@ title = "Simple web site"
 uploads = "web/uploads"
 uploads_url = "uploads"
 assets = "web/assets"
+admin_assets_url = "assets/admin"
+cabinet_assets_url = "assets/cabinet"
 assets_url = "assets"
 templates = "web/templates"
-
 
 [database]
 db_host = "blog_db"
